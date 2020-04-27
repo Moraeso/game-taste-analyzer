@@ -1,0 +1,46 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "ignoreIgnoreMessages ": true,
+    "experimentalDecorators": true,
+    "noLibCheck": true,
+    "noEmitOnError": true,
+    "outDir": "./build/",
+    "module": "es6",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "jsx": "preserve",
+    "allowJs": true,
+    "newLine": "lf",
+    "noEmit": true,
+    "noImplicitThis": false,
+    "baseUrl": ".",
+    "noStrictGenericChecks": true,
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/sequelize/types",
+      "./app/@types"
+    ],
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "types": [
+      "node",
+      "jasmine",
+      "webpack",
+      "lodash",
+      "jest"
+    ],
+    "paths": {
+      "*": [
+        "app/*"
+      ]
+    }
+  },
+  "include": [
+    "./app/**/*"
+  ]
+}
