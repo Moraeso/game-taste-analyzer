@@ -43,6 +43,8 @@
     "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "pm2": "^4.4.0",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
     "rimraf": "^3.0.0",
     "shelljs": "^0.8.3"
   },
@@ -67,6 +69,7 @@
     "@babel/register": "^7.8.6",
     "@babel/runtime": "^7.8.7",
     "@types/react": "^16.9.34",
+    "@types/react-redux": "^7.1.7",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
     "axios": "^0.19.2",

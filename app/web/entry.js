@@ -4,7 +4,7 @@ import App from 'web/App';
 
 const MOUNT_NODE = document.getElementById('app');
 
-ReactDOM.render(<App name="name" />, MOUNT_NODE);
+ReactDOM.render(<App />, MOUNT_NODE);
 
 if (module.hot) {
   // Hot reloadable React components and translation json files
@@ -12,7 +12,7 @@ if (module.hot) {
   // have to be constants at compile-time
   const callback = () => {
     ReactDOM.unmountComponentAtNode(MOUNT_NODE);
-    ReactDOM.render(<App name="name" />, MOUNT_NODE);
+    ReactDOM.render(<App />, MOUNT_NODE);
   };
   module.hot.accept([], callback);
 }
