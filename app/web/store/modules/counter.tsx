@@ -3,8 +3,8 @@ const INCREMENT = 'counter/INCREMENT';
 const DECREMENT = 'counter/DECREMENT';
 
 // action function
-export const increment = () => ({ type: INCREMENT });
-export const decrement = () => ({ type: DECREMENT });
+export const increment = (unit) => ({ type: INCREMENT, unit });
+export const decrement = (unit) => ({ type: DECREMENT, unit });
 
 // default state
 const initialState = {
@@ -17,12 +17,12 @@ const counter = (state = initialState, action) => {
     case INCREMENT:
       return {
         ...state,
-        number: state.number + 1,
+        number: state.number + action.unit,
       };
     case DECREMENT:
       return {
         ...state,
-        number: state.number - 1,
+        number: state.number - action.unit,
       };
     default:
       return state;
