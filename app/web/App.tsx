@@ -3,14 +3,14 @@ import ServerCheckComponent from 'web/components/ServerCheckComponent';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from 'web/store/modules';
-import Counter from 'web/components/Counter';
+import CounterContainer from 'web/container/CounterContainer';
 
 const store = createStore(rootReducer);
 console.log(store.getState());
 
 const App = () => (
   <Provider store={store}>
-    <Counter />
+    <CounterContainer />
     <ServerCheckComponent />
   </Provider>
 );
