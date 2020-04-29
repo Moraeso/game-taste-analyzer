@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Counter from 'web/components/Counter';
+import Counter from 'web/components/Counter/CounterForm';
 import { increment, decrement } from 'web/store/modules/counter';
 
 const mapStateToProps = (store) => ({
