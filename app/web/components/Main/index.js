@@ -4,7 +4,6 @@ import APIS from 'shared/APIS';
 import axios from 'axios';
 import apicalypse from 'apicalypse';
 
-
 const requestOptions = {
   queryMethod: 'url',
   method: 'post',

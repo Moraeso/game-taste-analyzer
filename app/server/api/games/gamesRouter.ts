@@ -1,6 +1,7 @@
 import express from 'express';
 import apicalypse from 'apicalypse';
 import axios from 'axios';
+import apiAccess from 'server/CORE/api-config';
 
 const gamesRouter = express.Router();
 
@@ -21,7 +22,7 @@ gamesRouter.get('/', async (req, res) => {
     method: 'post',
     url: 'https://api-v3.igdb.com/games',
     headers: {
-      'user-key': '147c4544cb254d68a3f41e3c994c04c8',
+      'user-key': apiAccess.key,
       'Content-Type': 'text/plain',
     },
   });
