@@ -1,7 +1,6 @@
 import express from 'express';
-// import moment from 'moment';
 import applyReactSupport from 'server/applyReactSupport';
-import gamesRouter from 'server/api/games/gamesRouter';
+import gamesRouter from 'server/api/game/gamesRouter';
 import APIS from 'shared/APIS';
 
 const expressApp = () => {
