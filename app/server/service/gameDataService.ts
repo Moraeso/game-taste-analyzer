@@ -8,47 +8,53 @@ class GameDataService {
       name,
       involved_companies,
       first_release_date,
-      cover,
+      player_perspectives,
+      game_modes,
       platforms,
       genres,
       themes,
       summary,
+      cover,
       artworks,
-      player_perspectives,
-      similar_games,
+      screenshots,
       videos,
-      game_modes;
+      similar_games,
+      websites;
     where id = ${id};
     `;
     return callApi('/games', queryString);
   }
 
-  public static async getRealGameData(game) {
+  public static async getRegularGameData(game) {
     const developer = await this.getDeveloper(game.involved_companies);
     const cover = await this.getCover(game.cover);
     const platforms = await this.getPlatforms(game.platforms);
     const genres = await this.getGenres(game.genres);
     const artworks = await this.getArtworks(game.artworks);
+    const screenshots = await this.getScreenshots(game.screenshots);
     const themes = await this.getThemes(game.themes);
     const playerPerspectives = await this.getPlayerPerspectives(game.player_perspectives);
     const videos = await this.getVideos(game.videos);
     const gameModes = await this.getGameModes(game.game_modes);
+    const websites = await this.getWebsites(game.websites);
 
     const result = {
       ...game,
-      firstReleaseDate: game.first_release_data,
+      firstReleaseDate: game.first_release_date,
       similarGames: game.similar_games,
       developer,
-      cover,
       platforms,
       genres,
       artworks,
+      cover,
+      screenshots,
       themes,
       playerPerspectives,
       videos,
       gameModes,
+      websites,
     };
-    delete result.first_release_data;
+    delete result.first_release_date;
     delete result.game_modes;
     delete result.involved_companies;
     delete result.player_perspectives;
@@ -120,6 +126,19 @@ class GameDataService {
       .replace('t_thumb', 't_1080p')); // 1080p, 720p, screenshot_huge, screenshot_big, screenshot_med
   }
 
+  public static async getScreenshots(screenshotsId) {
+    if (!screenshotsId) return [''];
+    const promises = [];
+    screenshotsId.forEach((screenshot) => {
+      const queryString = `fields image_id, width, height, url; where id=${screenshot};`;
+      promises.push(callApi('/screenshots', queryString));
+    });
+    const artworks = await Promise.all(promises);
+    return artworks.map((screenshot) => screenshot.url
+      .replace('//', 'http://')
+      .replace('t_thumb', 't_1080p')); // 1080p, 720p, screenshot_huge, screenshot_big, screenshot_med
+  }
+
   public static async getThemes(themesId) {
     if (!themesId) return [''];
     const promises = [];
@@ -165,6 +184,17 @@ class GameDataService {
     });
     const gameModes = await Promise.all(promises);
     return gameModes.map((gameMode) => gameMode.name);
+  }
+
+  public static async getWebsites(websitesId) {
+    if (!websitesId) return [''];
+    const promises = [];
+    websitesId.forEach((website) => {
+      const queryString = `fields url; where id=${website};`;
+      promises.push(callApi('/websites', queryString));
+    });
+    const websites = await Promise.all(promises);
+    return websites.map((website) => website.url);
   }
 }
 

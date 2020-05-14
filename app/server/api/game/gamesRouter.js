@@ -8,8 +8,9 @@ gamesRouter.get('/', async (req, res) => {
   const original = await GameDataService.getGameData(id);
   // console.log(original);
 
-  const result = await GameDataService.getRealGameData(original);
+  const result = await GameDataService.getRegularGameData(original);
   console.log(result);
+
   res.send(result);
 });
 
