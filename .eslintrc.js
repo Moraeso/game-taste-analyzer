@@ -39,16 +39,6 @@ module.exports = {
     },
   },
   'rules': {
-    "import/extensions": [
-      "error",
-      "ignorePackages",
-      {
-        "js": "never",
-        "jsx": "never",
-        "ts": "never",
-        "tsx": "never"
-      }
-    ],
     'lodash-fp/use-fp': 'off',
     'lodash-fp/no-unused-result': 'off',
     'lodash-fp/no-extraneous-args': 'off',
@@ -230,5 +220,3 @@ module.exports = {
 
   ],
 };
-
-

@@ -5,6 +5,7 @@ import React, {
 import { API_URL } from 'shared/API_INFO';
 import APIS from 'shared/APIS';
 import axios from 'axios';
+import GameCardDetail from 'web/components/Main/GameCardDetail';
 
 const Main = () => {
   const [game, setGame] = useState(null);
@@ -19,27 +20,28 @@ const Main = () => {
     return result;
   };
 
-  useEffect(() => {
-    getGames(115)
-      .then((res) => {
-        setGame(res.data);
-        console.log(res.data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   //   getGames(115)
+  //   //     .then((res) => {
+  //   //       setGame(res.data);
+  //   //       console.log(res.data);
+  //   //     });
+  //   // }, []);
   return (
-    <div>
-      Game Information
-      <br />
-      {game ? (
-        <div>
-          <pre>{JSON.stringify(game, null, 2)}</pre>
-        </div>
-      ) : (
-        <div>
-          loading...
-        </div>
-      )}
-    </div>
+    <>
+      <GameCardDetail id={115} />
+      {/* {game ? (*/}
+      {/*  <>*/}
+      {/*    <div>*/}
+      {/*      <pre>{JSON.stringify(game, null, 2)}</pre>*/}
+      {/*    </div>*/}
+      {/*  </>*/}
+      {/*) : (*/}
+      {/*  <div>*/}
+      {/*    loading...*/}
+      {/*  </div>*/}
+      {/*)} */}
+    </>
   );
 };
 

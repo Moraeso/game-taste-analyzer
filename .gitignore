@@ -56,3 +56,5 @@ junit/*
 
 .package-lock-md5
 
+CORE/*
+sql/*
