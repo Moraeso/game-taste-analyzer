@@ -4,10 +4,7 @@ import {
 } from 'shared/interfaces/game';
 import callApi from 'server/utils/callApi';
 
-const convertUnixTimeStampToDate = (unixTimeStamp: any) => {
-  const date: Date = new Date(unixTimeStamp * 1000);
-  return date;
-};
+const convertUnixTimeStampToDate = (unixTimeStamp: any) => new Date(unixTimeStamp * 1000);
 
 const getDeveloper = async (involvedCompaniesId: number[]) => {
   if (!involvedCompaniesId) return '';
@@ -60,8 +57,9 @@ const getGenres = async (genresId: number[]) => {
 
 const getArtworks = async (artworksId: number[]) => {
   if (!artworksId) return [''];
+  const filteredArtworksId = artworksId.slice(0, 5);
   const promises = [];
-  artworksId.forEach((artwork) => {
+  filteredArtworksId.forEach((artwork) => {
     const queryString = `fields image_id, width, height, url; where id=${artwork};`;
     promises.push(callApi('/artworks', queryString));
   });
@@ -69,12 +67,13 @@ const getArtworks = async (artworksId: number[]) => {
   return artworks.map((artwork) => artwork.url
     .replace('//', 'http://')
     .replace('t_thumb', 't_1080p')); // 1080p, 720p, screenshot_huge, screenshot_big, screenshot_med
-}
+};
 
 const getScreenshots = async (screenshotsId: number[]) => {
   if (!screenshotsId) return [''];
+  const filteredScreenshotsId = screenshotsId.slice(0, 5);
   const promises = [];
-  screenshotsId.forEach((screenshot) => {
+  filteredScreenshotsId.forEach((screenshot) => {
     const queryString = `fields image_id, width, height, url; where id=${screenshot};`;
     promises.push(callApi('/screenshots', queryString));
   });
@@ -181,6 +180,7 @@ export const convertGameApiFormatToRegular = async (original: GameApiFormat) => 
     popularity: original.popularity,
     totalRating: original.total_rating,
     totalRatingCount: original.total_rating_count,
+    similarGame: null,
   };
   return game;
 };
@@ -209,6 +209,6 @@ export const getGameFromApi = async (id: number) => {
       similar_games;
     where id = ${id};
     `;
-  const game: GameApiFormat = await callApi('/games', queryString);
-  return game;
+  const gameApiFormat: GameApiFormat = await callApi('/games', queryString);
+  return gameApiFormat;
 };

@@ -51,17 +51,28 @@ const convertGameDbFormatToRegular = (dbFormat: GameDbFormat) => {
     popularity: dbFormat.popularity,
     totalRating: dbFormat.total_rating,
     totalRatingCount: dbFormat.total_rating_count,
+    similarGame: null,
   };
   return game;
 };
 
 export const getGameRegularFromDb = async (id: number) => {
   const data = await db.queryPromised(`select * from game where id = ?`, [id]);
-  if (data.length === 0) {
+  if (data.length <= 0) {
     return null;
   }
   const game: GameDbFormat = data[0];
   return convertGameDbFormatToRegular(game);
+};
+
+export const getSimilarGameFromDb = async (id: number) => {
+  const data = await db.queryPromised(`select * from similar_games where game = ?`, [id]);
+  if (data.length <= 0) {
+    return null;
+  }
+  const similarGames = [];
+  data.forEach((item) => similarGames.push(item.similar_game));
+  return similarGames;
 };
 
 export const insertGameIntoDb = async (regular: Game) => {
@@ -73,4 +84,12 @@ export const insertGameIntoDb = async (regular: Game) => {
   [game.id, game.name, game.developer, game.first_release_date, game.platforms, game.genres, game.themes,
     game.player_perspectives, game.game_modes, game.summary, game.cover, game.artworks, game.screenshots, game.video,
     game.website, game.popularity, game.total_rating, game.total_rating_count]);
+};
+
+export const insertSimilarGamesIntoDb = async (game: number, similarGamesId: number[]) => {
+  const promises = [];
+  similarGamesId.forEach((similarGame) => {
+    promises.push(db.queryPromised(`insert into similar_games (game, similar_game) values (?, ?)`, [game, similarGame]));
+  });
+  await Promise.all(promises);
 };

@@ -1,4 +1,4 @@
-const queryToPromise = async (db, sql: string, values: any[]) => new Promise<>((resolve, reject) => {
+const queryToPromise = async (db, sql: string, values: any[]) => new Promise<any>((resolve, reject) => {
   db.query(sql, values, (err, val) => {
     if (err) {
       reject(err);

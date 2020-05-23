@@ -17,6 +17,7 @@ export interface Game {
   popularity: number;
   totalRating: number;
   totalRatingCount: number;
+  similarGame: number[];
 }
 
 export interface GameDbFormat {
@@ -38,6 +39,11 @@ export interface GameDbFormat {
   popularity: number;
   total_rating: number;
   total_rating_count: number;
+}
+
+export interface SimilarGame {
+  game: number;
+  similarGame: number;
 }
 
 export interface GameApiFormat {

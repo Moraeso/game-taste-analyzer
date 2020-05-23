@@ -5,9 +5,14 @@ import {
 } from 'server/service/gameInitApiService';
 import {
   getGameRegularFromDb,
+  getSimilarGameFromDb,
   insertGameIntoDb,
+  insertSimilarGamesIntoDb,
 } from 'server/service/gameInitDbService';
-import { Game, GameApiFormat } from 'shared/interfaces/game';
+import {
+  Game,
+  GameApiFormat,
+} from 'shared/interfaces/game';
 
 const gamesRouter = express.Router();
 
@@ -18,8 +23,10 @@ gamesRouter.get('/', async (req, res) => {
     const gameApiFormat: GameApiFormat = await getGameFromApi(id);
     game = await convertGameApiFormatToRegular(gameApiFormat);
     await insertGameIntoDb(game);
+    await insertSimilarGamesIntoDb(id, gameApiFormat.similar_games);
   }
-  console.log(game);
+  game.similarGame = await getSimilarGameFromDb(id);
+  // console.log(game);
   res.send(game);
 });
 
