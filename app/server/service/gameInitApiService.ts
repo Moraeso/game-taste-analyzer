@@ -4,9 +4,9 @@ import {
 } from 'shared/interfaces/game';
 import callApi from 'server/utils/callApi';
 
-const convertUnixTimeStampToDate = (unixTimeStamp: any) => new Date(unixTimeStamp * 1000);
+const convertUnixTimeStampToDate = (unixTimeStamp: any): Date => new Date(unixTimeStamp * 1000);
 
-const getDeveloper = async (involvedCompaniesId: number[]) => {
+const getDeveloper = async (involvedCompaniesId: number[]): Promise<string> => {
   if (!involvedCompaniesId) return '';
   const promises = [];
   involvedCompaniesId.forEach((company) => {
@@ -25,7 +25,7 @@ const getDeveloper = async (involvedCompaniesId: number[]) => {
   return developer.name;
 };
 
-const getCover = async (coverId: number) => {
+const getCover = async (coverId: number): Promise<string> => {
   if (!coverId) return '';
   const cover = await callApi('/covers', `fields image_id, width, height, url; where id=${coverId};`);
   return cover.url
@@ -33,7 +33,7 @@ const getCover = async (coverId: number) => {
     .replace('t_thumb', 't_1080p'); // 1080p, 720p, cover_big, cover_small
 };
 
-const getPlatforms = async (platformsId: number[]) => {
+const getPlatforms = async (platformsId: number[]): Promise<string[]> => {
   if (!platformsId) return [''];
   const promises = [];
   platformsId.forEach((platform) => {
@@ -44,7 +44,7 @@ const getPlatforms = async (platformsId: number[]) => {
   return platforms.map((platform) => platform.name);
 };
 
-const getGenres = async (genresId: number[]) => {
+const getGenres = async (genresId: number[]): Promise<string[]> => {
   if (!genresId) return [''];
   const promises = [];
   genresId.forEach((genre) => {
@@ -55,7 +55,7 @@ const getGenres = async (genresId: number[]) => {
   return genres.map((genre) => genre.name);
 };
 
-const getArtworks = async (artworksId: number[]) => {
+const getArtworks = async (artworksId: number[]): Promise<string[]> => {
   if (!artworksId) return [''];
   const filteredArtworksId = artworksId.slice(0, 5);
   const promises = [];
@@ -69,7 +69,7 @@ const getArtworks = async (artworksId: number[]) => {
     .replace('t_thumb', 't_1080p')); // 1080p, 720p, screenshot_huge, screenshot_big, screenshot_med
 };
 
-const getScreenshots = async (screenshotsId: number[]) => {
+const getScreenshots = async (screenshotsId: number[]): Promise<string[]> => {
   if (!screenshotsId) return [''];
   const filteredScreenshotsId = screenshotsId.slice(0, 5);
   const promises = [];
@@ -83,7 +83,7 @@ const getScreenshots = async (screenshotsId: number[]) => {
     .replace('t_thumb', 't_1080p')); // 1080p, 720p, screenshot_huge, screenshot_big, screenshot_med
 };
 
-const getThemes = async (themesId: number[]) => {
+const getThemes = async (themesId: number[]): Promise<string[]> => {
   if (!themesId) return [''];
   const promises = [];
   themesId.forEach((theme) => {
@@ -94,7 +94,7 @@ const getThemes = async (themesId: number[]) => {
   return themes.map((theme) => theme.name);
 };
 
-const getPlayerPerspectives = async (playerPerspectivesId: number[]) => {
+const getPlayerPerspectives = async (playerPerspectivesId: number[]): Promise<string[]> => {
   if (!playerPerspectivesId) return [''];
   const promises = [];
   playerPerspectivesId.forEach((playerPerspective) => {
@@ -103,16 +103,16 @@ const getPlayerPerspectives = async (playerPerspectivesId: number[]) => {
   });
   const playerPerspectives = await Promise.all(promises);
   return playerPerspectives.map((playerPerspective) => playerPerspective.name);
-}
+};
 
-const getVideo = async (videoId: number) => {
+const getVideo = async (videoId: number): Promise<string> => {
   if (!videoId) return '';
   const queryString = `fields video_id; where id=${videoId};`;
   const video = await callApi('/game_videos', queryString);
   return `https://www.youtube.com/watch?v=${video.video_id}`;
 };
 
-const getGameModes = async (gameModesId: number[]) => {
+const getGameModes = async (gameModesId: number[]): Promise<string[]> => {
   if (!gameModesId) return [''];
   const promises = [];
   gameModesId.forEach((gameMode) => {
@@ -123,7 +123,7 @@ const getGameModes = async (gameModesId: number[]) => {
   return gameModes.map((gameMode) => gameMode.name);
 };
 
-const getWebsite = async (gameId: number) => {
+const getWebsite = async (gameId: number): Promise<string> => {
   /*
   official 1
   wikia 2
@@ -144,10 +144,11 @@ const getWebsite = async (gameId: number) => {
   */
   const queryString = `fields url; where game=${gameId} & category=1;`;
   const website = await callApi('/websites', queryString);
-  return website.url || '';
+  if (!website) return '';
+  return website.url;
 };
 
-export const convertGameApiFormatToRegular = async (original: GameApiFormat) => {
+export const convertGameApiFormatToRegular = async (original: GameApiFormat): Promise<Game> => {
   const developer = await getDeveloper(original.involved_companies);
   const firstReleaseDate = convertUnixTimeStampToDate(original.first_release_date);
   const platforms = await getPlatforms(original.platforms);
@@ -161,7 +162,7 @@ export const convertGameApiFormatToRegular = async (original: GameApiFormat) => 
   const video = await getVideo(original.videos[0]);
   const website = await getWebsite(original.id);
 
-  const game: Game = {
+  return {
     id: original.id,
     name: original.name,
     developer,
@@ -182,10 +183,9 @@ export const convertGameApiFormatToRegular = async (original: GameApiFormat) => 
     totalRatingCount: original.total_rating_count,
     similarGame: null,
   };
-  return game;
 };
 
-export const getGameFromApi = async (id: number) => {
+export const getGameFromApi = async (id: number): Promise<GameApiFormat> => {
   const queryString = `
     fields
       id,
@@ -209,6 +209,5 @@ export const getGameFromApi = async (id: number) => {
       similar_games;
     where id = ${id};
     `;
-  const gameApiFormat: GameApiFormat = await callApi('/games', queryString);
-  return gameApiFormat;
+  return callApi('/games', queryString);
 };

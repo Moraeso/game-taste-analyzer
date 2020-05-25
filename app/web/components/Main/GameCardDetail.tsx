@@ -98,6 +98,7 @@ const GameCardDetail = ({ id }) => {
           <Developer>{game.developer}</Developer>
           <Summary>{game.summary}</Summary>
           <Line />
+          <a href={game.website}>HomePage</a>
           <Platforms>{game.platforms}</Platforms>
           <Genres>{game.genres}</Genres>
           <Themes>{game.themes}</Themes>

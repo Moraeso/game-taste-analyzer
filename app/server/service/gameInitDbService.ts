@@ -2,13 +2,14 @@ import db from 'server/service/dbConnect';
 import {
   Game,
   GameDbFormat,
+  SimilarGame,
 } from 'shared/interfaces/game';
 
-const toConcat = (stringArray: string[]) => stringArray.join(',');
-const toSeparate = (concatString: string) => concatString.split(',');
+const toConcat = (stringArray: string[]): string => stringArray.join(',');
+const toSeparate = (concatString: string): string[] => concatString.split(',');
 
-const convertGameRegularToDbFormat = (regular: Game) => {
-  const game: GameDbFormat = {
+const convertGameRegularToDbFormat = (regular: Game): GameDbFormat => {
+  return {
     id: regular.id,
     name: regular.name,
     developer: regular.developer,
@@ -28,11 +29,10 @@ const convertGameRegularToDbFormat = (regular: Game) => {
     total_rating: regular.totalRating,
     total_rating_count: regular.totalRatingCount,
   };
-  return game;
 };
 
-const convertGameDbFormatToRegular = (dbFormat: GameDbFormat) => {
-  const game: Game = {
+const convertGameDbFormatToRegular = (dbFormat: GameDbFormat): Game => {
+  return {
     id: dbFormat.id,
     name: dbFormat.name,
     developer: dbFormat.developer,
@@ -53,10 +53,9 @@ const convertGameDbFormatToRegular = (dbFormat: GameDbFormat) => {
     totalRatingCount: dbFormat.total_rating_count,
     similarGame: null,
   };
-  return game;
 };
 
-export const getGameRegularFromDb = async (id: number) => {
+export const getGameRegularFromDb = async (id: number): Promise<Game> => {
   const data = await db.queryPromised(`select * from game where id = ?`, [id]);
   if (data.length <= 0) {
     return null;
@@ -65,7 +64,7 @@ export const getGameRegularFromDb = async (id: number) => {
   return convertGameDbFormatToRegular(game);
 };
 
-export const getSimilarGameFromDb = async (id: number) => {
+export const getSimilarGameFromDb = async (id: number): Promise<number[]> => {
   const data = await db.queryPromised(`select * from similar_games where game = ?`, [id]);
   if (data.length <= 0) {
     return null;
@@ -75,7 +74,7 @@ export const getSimilarGameFromDb = async (id: number) => {
   return similarGames;
 };
 
-export const insertGameIntoDb = async (regular: Game) => {
+export const insertGameIntoDb = async (regular: Game): Promise<void> => {
   const game: GameDbFormat = convertGameRegularToDbFormat(regular);
   await db.queryPromised(`insert into game
     (id, name, developer, first_release_date, platforms, genres, themes, player_perspectives, game_modes, summary,
@@ -86,7 +85,7 @@ export const insertGameIntoDb = async (regular: Game) => {
     game.website, game.popularity, game.total_rating, game.total_rating_count]);
 };
 
-export const insertSimilarGamesIntoDb = async (game: number, similarGamesId: number[]) => {
+export const insertSimilarGamesIntoDb = async (game: number, similarGamesId: number[]): Promise<void> => {
   const promises = [];
   similarGamesId.forEach((similarGame) => {
     promises.push(db.queryPromised(`insert into similar_games (game, similar_game) values (?, ?)`, [game, similarGame]));
