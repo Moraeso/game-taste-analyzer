@@ -10,9 +10,10 @@ import {
   insertSimilarGamesIntoDb,
 } from 'server/service/gameInitDbService';
 import {
-  Game,
   GameApiFormat,
-} from 'shared/interfaces/game';
+} from 'server/model/game';
+import { Game } from 'shared/model/game';
+
 
 const gamesRouter = express.Router();
 
@@ -26,7 +27,7 @@ gamesRouter.get('/', async (req, res) => {
     await insertSimilarGamesIntoDb(id, gameApiFormat.similar_games);
   }
   game.similarGame = await getSimilarGameFromDb(id);
-  // console.log(game);
+  console.log(game);
   res.send(game);
 });
 

@@ -1,8 +1,8 @@
 import {
-  Game,
   GameApiFormat,
-} from 'shared/interfaces/game';
-import callApi from 'server/utils/callApi';
+} from 'server/model/game';
+import callGameApi from 'server/utils/callGameApi';
+import { Game } from 'shared/model/game';
 
 const convertUnixTimeStampToDate = (unixTimeStamp: any): Date => new Date(unixTimeStamp * 1000);
 
@@ -11,7 +11,7 @@ const getDeveloper = async (involvedCompaniesId: number[]): Promise<string> => {
   const promises = [];
   involvedCompaniesId.forEach((company) => {
     const queryString = `fields company, developer; where id=${company};`;
-    promises.push(callApi('/involved_companies', queryString));
+    promises.push(callGameApi('/involved_companies', queryString));
   });
   const companies = await Promise.all(promises);
 
@@ -21,13 +21,13 @@ const getDeveloper = async (involvedCompaniesId: number[]): Promise<string> => {
       developerId = company.company;
     }
   });
-  const developer = await callApi('/companies', `fields name; where id=${developerId};`);
+  const developer = await callGameApi('/companies', `fields name; where id=${developerId};`);
   return developer.name;
 };
 
 const getCover = async (coverId: number): Promise<string> => {
   if (!coverId) return '';
-  const cover = await callApi('/covers', `fields image_id, width, height, url; where id=${coverId};`);
+  const cover = await callGameApi('/covers', `fields image_id, width, height, url; where id=${coverId};`);
   return cover.url
     .replace('//', 'http://')
     .replace('t_thumb', 't_1080p'); // 1080p, 720p, cover_big, cover_small
@@ -38,7 +38,7 @@ const getPlatforms = async (platformsId: number[]): Promise<string[]> => {
   const promises = [];
   platformsId.forEach((platform) => {
     const queryString = `fields name; where id=${platform};`;
-    promises.push(callApi('/platforms', queryString));
+    promises.push(callGameApi('/platforms', queryString));
   });
   const platforms = await Promise.all(promises);
   return platforms.map((platform) => platform.name);
@@ -49,7 +49,7 @@ const getGenres = async (genresId: number[]): Promise<string[]> => {
   const promises = [];
   genresId.forEach((genre) => {
     const queryString = `fields name; where id=${genre};`;
-    promises.push(callApi('/genres', queryString));
+    promises.push(callGameApi('/genres', queryString));
   });
   const genres = await Promise.all(promises);
   return genres.map((genre) => genre.name);
@@ -61,7 +61,7 @@ const getArtworks = async (artworksId: number[]): Promise<string[]> => {
   const promises = [];
   filteredArtworksId.forEach((artwork) => {
     const queryString = `fields image_id, width, height, url; where id=${artwork};`;
-    promises.push(callApi('/artworks', queryString));
+    promises.push(callGameApi('/artworks', queryString));
   });
   const artworks = await Promise.all(promises);
   return artworks.map((artwork) => artwork.url
@@ -75,7 +75,7 @@ const getScreenshots = async (screenshotsId: number[]): Promise<string[]> => {
   const promises = [];
   filteredScreenshotsId.forEach((screenshot) => {
     const queryString = `fields image_id, width, height, url; where id=${screenshot};`;
-    promises.push(callApi('/screenshots', queryString));
+    promises.push(callGameApi('/screenshots', queryString));
   });
   const artworks = await Promise.all(promises);
   return artworks.map((screenshot) => screenshot.url
@@ -88,7 +88,7 @@ const getThemes = async (themesId: number[]): Promise<string[]> => {
   const promises = [];
   themesId.forEach((theme) => {
     const queryString = `fields name; where id=${theme};`;
-    promises.push(callApi('/themes', queryString));
+    promises.push(callGameApi('/themes', queryString));
   });
   const themes = await Promise.all(promises);
   return themes.map((theme) => theme.name);
@@ -99,7 +99,7 @@ const getPlayerPerspectives = async (playerPerspectivesId: number[]): Promise<st
   const promises = [];
   playerPerspectivesId.forEach((playerPerspective) => {
     const queryString = `fields name; where id=${playerPerspective};`;
-    promises.push(callApi('/player_perspectives', queryString));
+    promises.push(callGameApi('/player_perspectives', queryString));
   });
   const playerPerspectives = await Promise.all(promises);
   return playerPerspectives.map((playerPerspective) => playerPerspective.name);
@@ -108,7 +108,7 @@ const getPlayerPerspectives = async (playerPerspectivesId: number[]): Promise<st
 const getVideo = async (videoId: number): Promise<string> => {
   if (!videoId) return '';
   const queryString = `fields video_id; where id=${videoId};`;
-  const video = await callApi('/game_videos', queryString);
+  const video = await callGameApi('/game_videos', queryString);
   return `https://www.youtube.com/watch?v=${video.video_id}`;
 };
 
@@ -117,7 +117,7 @@ const getGameModes = async (gameModesId: number[]): Promise<string[]> => {
   const promises = [];
   gameModesId.forEach((gameMode) => {
     const queryString = `fields name; where id=${gameMode};`;
-    promises.push(callApi('/game_modes', queryString));
+    promises.push(callGameApi('/game_modes', queryString));
   });
   const gameModes = await Promise.all(promises);
   return gameModes.map((gameMode) => gameMode.name);
@@ -143,7 +143,7 @@ const getWebsite = async (gameId: number): Promise<string> => {
   gog 17
   */
   const queryString = `fields url; where game=${gameId} & category=1;`;
-  const website = await callApi('/websites', queryString);
+  const website = await callGameApi('/websites', queryString);
   if (!website) return '';
   return website.url;
 };
@@ -209,5 +209,5 @@ export const getGameFromApi = async (id: number): Promise<GameApiFormat> => {
       similar_games;
     where id = ${id};
     `;
-  return callApi('/games', queryString);
+  return callGameApi('/games', queryString);
 };

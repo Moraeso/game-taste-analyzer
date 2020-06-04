@@ -1,59 +1,54 @@
 import db from 'server/service/dbConnect';
 import {
-  Game,
   GameDbFormat,
-  SimilarGame,
-} from 'shared/interfaces/game';
+} from 'server/model/game';
+import { Game } from 'shared/model/game';
 
 const toConcat = (stringArray: string[]): string => stringArray.join(',');
 const toSeparate = (concatString: string): string[] => concatString.split(',');
 
-const convertGameRegularToDbFormat = (regular: Game): GameDbFormat => {
-  return {
-    id: regular.id,
-    name: regular.name,
-    developer: regular.developer,
-    first_release_date: regular.firstReleaseDate,
-    platforms: toConcat(regular.platforms),
-    genres: toConcat(regular.genres),
-    themes: toConcat(regular.themes),
-    player_perspectives: toConcat(regular.playerPerspectives),
-    game_modes: toConcat(regular.gameModes),
-    summary: regular.summary,
-    cover: regular.cover,
-    artworks: toConcat(regular.artworks),
-    screenshots: toConcat(regular.screenshots),
-    video: regular.video,
-    website: regular.website,
-    popularity: regular.popularity,
-    total_rating: regular.totalRating,
-    total_rating_count: regular.totalRatingCount,
-  };
-};
+const convertGameRegularToDbFormat = (regular: Game): GameDbFormat => ({
+  id: regular.id,
+  name: regular.name,
+  developer: regular.developer,
+  first_release_date: regular.firstReleaseDate,
+  platforms: toConcat(regular.platforms),
+  genres: toConcat(regular.genres),
+  themes: toConcat(regular.themes),
+  player_perspectives: toConcat(regular.playerPerspectives),
+  game_modes: toConcat(regular.gameModes),
+  summary: regular.summary,
+  cover: regular.cover,
+  artworks: toConcat(regular.artworks),
+  screenshots: toConcat(regular.screenshots),
+  video: regular.video,
+  website: regular.website,
+  popularity: regular.popularity,
+  total_rating: regular.totalRating,
+  total_rating_count: regular.totalRatingCount,
+});
 
-const convertGameDbFormatToRegular = (dbFormat: GameDbFormat): Game => {
-  return {
-    id: dbFormat.id,
-    name: dbFormat.name,
-    developer: dbFormat.developer,
-    firstReleaseDate: dbFormat.first_release_date,
-    platforms: toSeparate(dbFormat.platforms),
-    genres: toSeparate(dbFormat.genres),
-    themes: toSeparate(dbFormat.themes),
-    playerPerspectives: toSeparate(dbFormat.player_perspectives),
-    gameModes: toSeparate(dbFormat.game_modes),
-    summary: dbFormat.summary,
-    cover: dbFormat.cover,
-    artworks: toSeparate(dbFormat.artworks),
-    screenshots: toSeparate(dbFormat.screenshots),
-    video: dbFormat.video,
-    website: dbFormat.website,
-    popularity: dbFormat.popularity,
-    totalRating: dbFormat.total_rating,
-    totalRatingCount: dbFormat.total_rating_count,
-    similarGame: null,
-  };
-};
+const convertGameDbFormatToRegular = (dbFormat: GameDbFormat): Game => ({
+  id: dbFormat.id,
+  name: dbFormat.name,
+  developer: dbFormat.developer,
+  firstReleaseDate: dbFormat.first_release_date,
+  platforms: toSeparate(dbFormat.platforms),
+  genres: toSeparate(dbFormat.genres),
+  themes: toSeparate(dbFormat.themes),
+  playerPerspectives: toSeparate(dbFormat.player_perspectives),
+  gameModes: toSeparate(dbFormat.game_modes),
+  summary: dbFormat.summary,
+  cover: dbFormat.cover,
+  artworks: toSeparate(dbFormat.artworks),
+  screenshots: toSeparate(dbFormat.screenshots),
+  video: dbFormat.video,
+  website: dbFormat.website,
+  popularity: dbFormat.popularity,
+  totalRating: dbFormat.total_rating,
+  totalRatingCount: dbFormat.total_rating_count,
+  similarGame: null,
+});
 
 export const getGameRegularFromDb = async (id: number): Promise<Game> => {
   const data = await db.queryPromised(`select * from game where id = ?`, [id]);
@@ -80,9 +75,11 @@ export const insertGameIntoDb = async (regular: Game): Promise<void> => {
     (id, name, developer, first_release_date, platforms, genres, themes, player_perspectives, game_modes, summary,
     cover, artworks, screenshots, video, website, popularity, total_rating, total_rating_count)
     values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-  [game.id, game.name, game.developer, game.first_release_date, game.platforms, game.genres, game.themes,
+  [
+    game.id, game.name, game.developer, game.first_release_date, game.platforms, game.genres, game.themes,
     game.player_perspectives, game.game_modes, game.summary, game.cover, game.artworks, game.screenshots, game.video,
-    game.website, game.popularity, game.total_rating, game.total_rating_count]);
+    game.website, game.popularity, game.total_rating, game.total_rating_count,
+  ]);
 };
 
 export const insertSimilarGamesIntoDb = async (game: number, similarGamesId: number[]): Promise<void> => {

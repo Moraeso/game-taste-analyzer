@@ -2,7 +2,7 @@ import expressApp from 'server/expressApp';
 import { exit } from 'shelljs';
 
 const argv = require('minimist')(process.argv.slice(2));
-const port = parseInt(argv.port || process.env.PORT || (argv.dry ? '0' : '3000'), 10);
+const port = parseInt(argv.port || process.env.PORT || (argv.dry ? '0' : '3002'), 10);
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST;

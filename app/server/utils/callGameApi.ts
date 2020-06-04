@@ -1,7 +1,7 @@
 import axios from 'axios';
 import apiAccess from 'server/CORE/api-config';
 
-const callApi = async (endpoint: string, queryString: string): Promise<object> => {
+const callGameApi = async (endpoint: string, queryString: string): Promise<any> => {
   const result = await axios({
     method: 'post',
     url: `https://api-v3.igdb.com${endpoint}`,
@@ -13,4 +13,4 @@ const callApi = async (endpoint: string, queryString: string): Promise<object> =
   return result.data[0];
 };
 
-export default callApi;
+export default callGameApi;

@@ -1,9 +1,9 @@
 import React from 'react';
-import Main from 'web/components/Main';
+import GameInformation from 'web/components/GameInformation';
 
 const MainContainer = () => (
   <>
-    <Main />
+    <GameInformation />
   </>
 );
 
