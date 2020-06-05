@@ -1,22 +1,22 @@
 export interface GameDbFormat {
-  id: number;
-  name: string;
-  developer: string;
-  first_release_date: Date;
-  platforms: string;
-  genres: string;
-  themes: string;
-  player_perspectives: string;
-  game_modes: string;
-  summary: string;
-  cover: string;
-  artworks: string;
-  screenshots: string;
-  video: string;
-  website: string;
-  popularity: number;
-  total_rating: number;
-  total_rating_count: number;
+  id: number | null;
+  name: string | null;
+  developer: string | null;
+  first_release_date: Date | null;
+  platforms: string | null;
+  genres: string | null;
+  themes: string | null;
+  player_perspectives: string | null;
+  game_modes: string | null;
+  summary: string | null;
+  cover: string | null;
+  artworks: string | null;
+  screenshots: string | null;
+  video: string | null;
+  website: string | null;
+  popularity: number | null;
+  total_rating: number | null;
+  total_rating_count: number | null;
 }
 
 export interface SimilarGame {
@@ -25,23 +25,23 @@ export interface SimilarGame {
 }
 
 export interface GameApiFormat {
-  id: number;
-  name: string;
-  involved_companies: number[];
-  first_release_date: Date;
-  platforms: number[];
-  genres: number[];
-  themes: number[];
-  player_perspectives: number[];
-  game_modes: number[];
-  summary: string;
-  cover: number;
-  artworks: number[];
-  screenshots: number[];
-  videos: number[];
-  websites: number[];
-  popularity: number;
-  total_rating: number;
-  total_rating_count: number;
-  similar_games: number[];
+  id: number | null;
+  name: string | null;
+  involved_companies: number[] | null;
+  first_release_date: Date | null;
+  platforms: number[] | null;
+  genres: number[] | null;
+  themes: number[] | null;
+  player_perspectives: number[] | null;
+  game_modes: number[] | null;
+  summary: string | null;
+  cover: number | null;
+  artworks: number[] | null;
+  screenshots: number[] | null;
+  videos: number[] | null;
+  websites: number[] | null;
+  popularity: number | null;
+  total_rating: number | null;
+  total_rating_count: number | null;
+  similar_games: number[] | null;
 }

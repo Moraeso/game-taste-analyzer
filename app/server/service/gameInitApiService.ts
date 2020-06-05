@@ -7,7 +7,7 @@ import { Game } from 'shared/model/game';
 const convertUnixTimeStampToDate = (unixTimeStamp: any): Date => new Date(unixTimeStamp * 1000);
 
 const getDeveloper = async (involvedCompaniesId: number[]): Promise<string> => {
-  if (!involvedCompaniesId) return '';
+  if (!involvedCompaniesId) return null;
   const promises = [];
   involvedCompaniesId.forEach((company) => {
     const queryString = `fields company, developer; where id=${company};`;
@@ -26,7 +26,7 @@ const getDeveloper = async (involvedCompaniesId: number[]): Promise<string> => {
 };
 
 const getCover = async (coverId: number): Promise<string> => {
-  if (!coverId) return '';
+  if (!coverId) return null;
   const cover = await callGameApi('/covers', `fields image_id, width, height, url; where id=${coverId};`);
   return cover.url
     .replace('//', 'http://')
@@ -34,7 +34,7 @@ const getCover = async (coverId: number): Promise<string> => {
 };
 
 const getPlatforms = async (platformsId: number[]): Promise<string[]> => {
-  if (!platformsId) return [''];
+  if (!platformsId) return null;
   const promises = [];
   platformsId.forEach((platform) => {
     const queryString = `fields name; where id=${platform};`;
@@ -45,7 +45,7 @@ const getPlatforms = async (platformsId: number[]): Promise<string[]> => {
 };
 
 const getGenres = async (genresId: number[]): Promise<string[]> => {
-  if (!genresId) return [''];
+  if (!genresId) return null;
   const promises = [];
   genresId.forEach((genre) => {
     const queryString = `fields name; where id=${genre};`;
@@ -56,7 +56,7 @@ const getGenres = async (genresId: number[]): Promise<string[]> => {
 };
 
 const getArtworks = async (artworksId: number[]): Promise<string[]> => {
-  if (!artworksId) return [''];
+  if (!artworksId) return null;
   const filteredArtworksId = artworksId.slice(0, 5);
   const promises = [];
   filteredArtworksId.forEach((artwork) => {
@@ -70,7 +70,7 @@ const getArtworks = async (artworksId: number[]): Promise<string[]> => {
 };
 
 const getScreenshots = async (screenshotsId: number[]): Promise<string[]> => {
-  if (!screenshotsId) return [''];
+  if (!screenshotsId) return null;
   const filteredScreenshotsId = screenshotsId.slice(0, 5);
   const promises = [];
   filteredScreenshotsId.forEach((screenshot) => {
@@ -84,7 +84,7 @@ const getScreenshots = async (screenshotsId: number[]): Promise<string[]> => {
 };
 
 const getThemes = async (themesId: number[]): Promise<string[]> => {
-  if (!themesId) return [''];
+  if (!themesId) return null;
   const promises = [];
   themesId.forEach((theme) => {
     const queryString = `fields name; where id=${theme};`;
@@ -95,7 +95,7 @@ const getThemes = async (themesId: number[]): Promise<string[]> => {
 };
 
 const getPlayerPerspectives = async (playerPerspectivesId: number[]): Promise<string[]> => {
-  if (!playerPerspectivesId) return [''];
+  if (!playerPerspectivesId) return null;
   const promises = [];
   playerPerspectivesId.forEach((playerPerspective) => {
     const queryString = `fields name; where id=${playerPerspective};`;
@@ -106,14 +106,14 @@ const getPlayerPerspectives = async (playerPerspectivesId: number[]): Promise<st
 };
 
 const getVideo = async (videoId: number): Promise<string> => {
-  if (!videoId) return '';
+  if (!videoId) return null;
   const queryString = `fields video_id; where id=${videoId};`;
   const video = await callGameApi('/game_videos', queryString);
   return `https://www.youtube.com/watch?v=${video.video_id}`;
 };
 
 const getGameModes = async (gameModesId: number[]): Promise<string[]> => {
-  if (!gameModesId) return [''];
+  if (!gameModesId) return null;
   const promises = [];
   gameModesId.forEach((gameMode) => {
     const queryString = `fields name; where id=${gameMode};`;
@@ -144,7 +144,7 @@ const getWebsite = async (gameId: number): Promise<string> => {
   */
   const queryString = `fields url; where game=${gameId} & category=1;`;
   const website = await callGameApi('/websites', queryString);
-  if (!website) return '';
+  if (!website) return null;
   return website.url;
 };
 

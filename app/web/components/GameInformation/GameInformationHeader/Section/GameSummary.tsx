@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { Colors } from 'shared/assets/color';
 
@@ -57,9 +57,7 @@ const Line = styled.div`
   background-color: ${Colors.gray2};
 `;
 
-const toConcat = (stringArray: string[]): string => stringArray.join(' / ');
-
-const BasicInformation = () => {
+const GameSummary = () => {
   const game = useGameInformationContext();
   if (!game) return null;
   return (
@@ -68,9 +66,6 @@ const BasicInformation = () => {
         <TitleText>{game.name}</TitleText>
         <SubText>
           {`${game.firstReleaseDate.split('-')[0]} ・ ${game.developer}`}
-        </SubText>
-        <SubText>
-          {toConcat(game.genres)}
         </SubText>
         <Line />
         <Text>
@@ -82,4 +77,4 @@ const BasicInformation = () => {
   );
 };
 
-export default BasicInformation;
+export default GameSummary;

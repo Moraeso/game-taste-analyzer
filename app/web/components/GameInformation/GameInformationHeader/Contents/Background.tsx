@@ -1,14 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Colors } from 'shared/assets/color';
-import { useGameInformationContext } from 'web/components/GameInformation/Context';
 import {
   DESKTOP_NORMAL,
   DESKTOP_SMALL,
-  MOBILE_BIG_WIDTH,
-  MOBILE_WIDTH,
 } from 'web/constants';
-import BackgroundImage from 'web/components/GameInformation/GameBasicInformation/Contents/BackgroundImage';
+import BackgroundImage from 'web/components/GameInformation/GameInformationHeader/Contents/BackgroundImage';
 
 const Wrapper = styled.div`
   position: relative;
@@ -37,8 +34,6 @@ const RightBackground = styled.div`
 `;
 
 const Background = () => {
-  const game = useGameInformationContext();
-  if (!game) return null;
   return (
     <Wrapper>
       <LeftBackground />

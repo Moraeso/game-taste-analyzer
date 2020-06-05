@@ -3,7 +3,7 @@ import React, {
   useState,
 } from 'react';
 import styled from 'styled-components';
-import GameBasicInformation from 'web/components/GameInformation/GameBasicInformation';
+import GameInformationHeader from 'web/components/GameInformation/GameInformationHeader';
 import GameDetailInformation from 'web/components/GameInformation/GameDetailInformation';
 import { GameProvider } from 'web/components/GameInformation/Context';
 import axios from 'axios';
@@ -31,7 +31,7 @@ const GameInformation = () => {
   };
 
   useEffect(() => {
-    getGame(1279)
+    getGame(115)
       .then((res) => {
         setGame(res.data);
         console.log(res.data);
@@ -41,7 +41,7 @@ const GameInformation = () => {
   return (
     <Wrapper>
       <GameProvider value={game}>
-        <GameBasicInformation />
+        <GameInformationHeader />
         <GameDetailInformation />
       </GameProvider>
     </Wrapper>

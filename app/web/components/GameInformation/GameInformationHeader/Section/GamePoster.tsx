@@ -4,8 +4,8 @@ import {
   DESKTOP_NORMAL,
   DESKTOP_SMALL,
 } from 'web/constants';
-import Background from 'web/components/GameInformation/GameBasicInformation/Contents/Background';
-import Cover from 'web/components/GameInformation/GameBasicInformation/Contents/Cover';
+import Background from 'web/components/GameInformation/GameInformationHeader/Contents/Background';
+import Cover from 'web/components/GameInformation/GameInformationHeader/Contents/Cover';
 
 const Wrapper = styled.div`
   max-height: 360px;
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Poster = () => {
+const GamePoster = () => {
   return (
     <Wrapper>
       <Background />
@@ -29,4 +29,4 @@ const Poster = () => {
   );
 };
 
-export default Poster;
+export default GamePoster;

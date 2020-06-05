@@ -72,7 +72,7 @@ const BackgroundImage = () => {
   if (!game) return null;
   return (
     <Wrapper>
-      <Img src={game.artworks[0] || game.screenshots[0]} alt={`${game.name}-screenshot-1`} />
+      <Img src={game.artworks ? game.artworks[0] : game.screenshots[0]} alt={`${game.name}-background`} />
       <LeftGradient />
       <RightGradient />
     </Wrapper>
