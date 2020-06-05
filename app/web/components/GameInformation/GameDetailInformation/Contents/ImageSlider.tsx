@@ -1,5 +1,6 @@
 import React, {
   useCallback,
+  useRef,
   useState,
 } from 'react';
 import styled, { css } from 'styled-components';
@@ -7,13 +8,14 @@ import {
   IoIosArrowBack,
   IoIosArrowForward,
 } from 'react-icons/io';
-import { Z_INDEX } from 'web/constants';
+import { MOBILE_WIDTH, Z_INDEX } from 'web/constants';
 import { Colors } from 'shared/assets/color';
 import { isMobile } from 'react-device-detect';
+import useMedia from 'web/hooks/useMedia';
 
 type ImageSliderProps = {
   imgList: string[];
-  widthSize: number;
+  defaultWidth: number;
 }
 
 const ArrowWrapper = styled.div(({
@@ -35,8 +37,8 @@ const ArrowButton = styled.div`
   display: none;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   background-color: ${Colors.gray6};
   opacity: 0.8;
@@ -62,50 +64,75 @@ const Wrapper = styled.div(({
 `);
 
 const ImgList = styled.div(({
-  widthSize,
   index,
-}: { widthSize: number; index: number }) => css`
+  isMobileSize,
+  interval,
+  defaultWidth,
+}: { index: number; isMobileSize: boolean; interval: number; defaultWidth: number }) => css`
   position: relative;
-  width: 100%;
-  height: auto;
   display: flex;
   flex-direction: row;
-  transition: 0.125s all ease-in;
-  transform: translateX(${index * -(widthSize + 8)}px);
+  width: 100%;
+  height: auto;
+  padding: 0 15px;
+  transition: 0.175s all ease-in;
+  transform: ${isMobileSize
+    ? `translateX(${index * -(interval / 2) + (index * 15)}px)`
+    : `translateX(${index * -(defaultWidth + 10)}px)`};
 `);
+// transform 1번 조건 : (restLeft 10 / margin 5) / (margin 5 / img1 / margin 5) / (margin 5 / img2 / margin 5) / (margin 5 / restRight 10)
 
 const Img = styled.img(({
-  widthSize,
-}: { widthSize: number }) => css`
-  width: ${widthSize}px;
+  isMobileSize,
+  defaultWidth,
+}: { isMobileSize: number; defaultWidth: number }) => css`
+  width: ${isMobileSize ? `calc(50% - 25px)` : `${defaultWidth}px`};
   height: auto;
-  margin: 0 4px;
+  margin: 0 5px;
+  border: 1px solid ${Colors.gray3};
+  border-radius: 3px;
+  box-sizing: border-box;
 `);
 
-const ImageSlider = ({ imgList, widthSize }: ImageSliderProps) => {
+const ImageSlider = ({ imgList, defaultWidth }: ImageSliderProps) => {
+  const sliderEl = useRef(null);
+  const isMobileSize = useMedia(MOBILE_WIDTH);
   const [index, setIndex] = useState(0);
+  const [interval, setInterval] = useState(0);
 
   const maxIndex = imgList.length - 1;
+
   const onClickPrev = useCallback((): void => {
-    console.log(`onClickPrev`);
-    if (index !== 0) {
-      setIndex(index - 1);
+    setInterval(sliderEl.current.offsetWidth);
+    const unit = isMobileSize ? 2 : Math.floor(sliderEl.current.offsetWidth / (defaultWidth + 10));
+    if (index - unit >= 0) {
+      setIndex(index - unit);
+    } else {
+      setIndex(0);
     }
   }, [index]);
 
   const onClickNext = useCallback((): void => {
-    console.log(`onClickNext`);
-
-    if (index !== maxIndex) {
-      setIndex(index + 1);
+    setInterval(sliderEl.current.offsetWidth);
+    const unit = isMobileSize ? 2 : Math.floor(sliderEl.current.offsetWidth / (defaultWidth + 10));
+    if (index + unit <= maxIndex) {
+      setIndex(index + unit);
+    } else {
+      setIndex(maxIndex);
     }
   }, [index]);
 
   return (
-    <Wrapper frameOverflow={isMobile ? 'scroll' : 'hidden'}>
-      <ImgList widthSize={widthSize} index={index}>
+    <Wrapper ref={sliderEl} frameOverflow={isMobile ? 'scroll' : 'hidden'}>
+      <ImgList isMobileSize={isMobileSize} defaultWidth={defaultWidth} interval={interval} index={index}>
         {imgList.map((img) => (
-          <Img widthSize={widthSize} key={img} src={img} alt={img} />
+          <Img
+            isMobileSize={isMobileSize}
+            defaultWidth={defaultWidth}
+            key={img}
+            src={img}
+            alt={img}
+          />
         ))}
       </ImgList>
       {!isMobile && (

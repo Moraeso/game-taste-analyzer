@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import Box from 'web/components/GameInformation/GameDetailInformation/Box';
 import { MOBILE_BIG_WIDTH, MOBILE_WIDTH } from 'web/constants';
+import Videos from 'web/components/GameInformation/GameDetailInformation/Contents/Video';
+import Artworks from 'web/components/GameInformation/GameDetailInformation/Contents/Artworks';
+import Screenshots from 'web/components/GameInformation/GameDetailInformation/Contents/Screenshots';
 
 const Wrapper = styled.div`
   width: 320px;
@@ -20,6 +23,9 @@ const AdditionalInformation = () => {
   return (
     <Wrapper>
       <Box>
+        <Artworks />
+        <Screenshots />
+        <Videos />
       </Box>
     </Wrapper>
   );

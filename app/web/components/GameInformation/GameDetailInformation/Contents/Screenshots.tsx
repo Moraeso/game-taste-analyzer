@@ -9,6 +9,7 @@ const Wrapper = styled.div`
 `;
 
 const Text = styled.div`
+  padding: 0 22px;
   font-size: 22px;
   font-weight: bold;
   color: ${Colors.gray9};
@@ -17,7 +18,7 @@ const Text = styled.div`
 const Line = styled.div`
   width: 100%;
   height: 1px;
-  margin: 20px auto;
+  margin: 20px 22px;
   background-color: ${Colors.gray2};
 `;
 
@@ -32,7 +33,7 @@ const Screenshots = () => {
         스크린샷
       </Text>
       <EmptySpace marginTop="10px" />
-      <ImageSlider imgList={game.screenshots} widthSize={320} />
+      <ImageSlider imgList={game.screenshots} defaultWidth={160} />
       <Line />
     </Wrapper>
   );

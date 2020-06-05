@@ -31,7 +31,7 @@ const GameInformation = () => {
   };
 
   useEffect(() => {
-    getGame(115)
+    getGame(1279)
       .then((res) => {
         setGame(res.data);
         console.log(res.data);

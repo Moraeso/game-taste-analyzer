@@ -20,6 +20,7 @@ const Img = styled.img`
 `;
 
 const Text = styled.div`
+  padding: 0 22px;
   font-size: 22px;
   font-weight: bold;
   color: ${Colors.gray9};
@@ -27,7 +28,7 @@ const Text = styled.div`
 const Line = styled.div`
   width: 100%;
   height: 1px;
-  margin: 20px auto;
+  margin: 20px 22px;
   background-color: ${Colors.gray2};
 `;
 
@@ -41,7 +42,7 @@ const Artworks = () => {
         아트웍
       </Text>
       <EmptySpace marginTop="10px" />
-      <ImageSlider imgList={game.artworks} widthSize={320} />
+      <ImageSlider imgList={game.artworks} defaultWidth={160} />
       <Line />
     </Wrapper>
   );
