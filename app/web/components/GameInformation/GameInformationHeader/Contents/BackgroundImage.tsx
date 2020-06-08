@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Colors } from 'shared/assets/color';
-import { useGameInformationContext } from 'web/components/GameInformation/Context';
+import { useGameInformationContext } from 'web/components/GameInformation/GameContext';
 import {
   DESKTOP_NORMAL,
   DESKTOP_SMALL,
-  MOBILE_BIG_WIDTH,
   MOBILE_WIDTH,
 } from 'web/constants';
 

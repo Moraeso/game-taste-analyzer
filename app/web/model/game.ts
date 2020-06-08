@@ -1,3 +1,10 @@
+export interface SimpleGame {
+  id: number | null;
+  name: string | null;
+  firstReleaseDate: Date | null;
+  cover: string | null;
+}
+
 export interface Game {
   id: number | null;
   name: string | null;
@@ -17,5 +24,5 @@ export interface Game {
   popularity: number | null;
   totalRating: number | null;
   totalRatingCount: number | null;
-  similarGame: number[] | null;
+  similarGames: number[] | null;
 }

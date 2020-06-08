@@ -1,8 +1,8 @@
 import {
+  Game,
   GameApiFormat,
 } from 'server/model/game';
 import callGameApi from 'server/utils/callGameApi';
-import { Game } from 'shared/model/game';
 
 const convertUnixTimeStampToDate = (unixTimeStamp: any): Date => new Date(unixTimeStamp * 1000);
 
@@ -57,7 +57,7 @@ const getGenres = async (genresId: number[]): Promise<string[]> => {
 
 const getArtworks = async (artworksId: number[]): Promise<string[]> => {
   if (!artworksId) return null;
-  const filteredArtworksId = artworksId.slice(0, 5);
+  const filteredArtworksId = artworksId.slice(0, 10);
   const promises = [];
   filteredArtworksId.forEach((artwork) => {
     const queryString = `fields image_id, width, height, url; where id=${artwork};`;
@@ -71,7 +71,7 @@ const getArtworks = async (artworksId: number[]): Promise<string[]> => {
 
 const getScreenshots = async (screenshotsId: number[]): Promise<string[]> => {
   if (!screenshotsId) return null;
-  const filteredScreenshotsId = screenshotsId.slice(0, 5);
+  const filteredScreenshotsId = screenshotsId.slice(0, 10);
   const promises = [];
   filteredScreenshotsId.forEach((screenshot) => {
     const queryString = `fields image_id, width, height, url; where id=${screenshot};`;
@@ -181,7 +181,7 @@ export const convertGameApiFormatToRegular = async (original: GameApiFormat): Pr
     popularity: original.popularity,
     totalRating: original.total_rating,
     totalRatingCount: original.total_rating_count,
-    similarGame: null,
+    similarGames: null,
   };
 };
 

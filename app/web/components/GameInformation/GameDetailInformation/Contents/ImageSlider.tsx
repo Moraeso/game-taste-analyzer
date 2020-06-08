@@ -84,8 +84,9 @@ const ImgList = styled.div(({
 
 const Img = styled.img(({
   isMobileSize,
+  mobileViews,
   defaultWidth,
-}: { isMobileSize: number; defaultWidth: number }) => css`
+}: { isMobileSize: number; mobileViews: number; defaultWidth: number }) => css`
   width: ${isMobileSize ? `calc(50% - 25px)` : `${defaultWidth}px`};
   height: auto;
   margin: 0 5px;
@@ -128,6 +129,7 @@ const ImageSlider = ({ imgList, defaultWidth }: ImageSliderProps) => {
         {imgList.map((img) => (
           <Img
             isMobileSize={isMobileSize}
+            mobileViews={3}
             defaultWidth={defaultWidth}
             key={img}
             src={img}

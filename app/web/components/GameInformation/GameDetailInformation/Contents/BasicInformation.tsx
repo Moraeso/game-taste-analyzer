@@ -1,9 +1,8 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { useGameInformationContext } from 'web/components/GameInformation/Context';
+import { useGameInformationContext } from 'web/components/GameInformation/GameContext';
 import { Colors } from 'shared/assets/color';
 import EmptySpace from 'web/components/shared/EmptySpace';
-import Box from 'web/components/GameInformation/GameDetailInformation/Box';
 
 const Wrapper = styled.div`
   padding: 0 22px;
@@ -30,7 +29,8 @@ const Line = styled.div`
 
 const BasicInformation = () => {
   const toConcat = useCallback(
-    (stringArray: string[]): string => stringArray.join(' ・ '), []);
+    (stringArray: string[]): string => stringArray.join(' ・ '), []
+  );
 
   const game = useGameInformationContext();
   if (!game) return null;
@@ -44,12 +44,12 @@ const BasicInformation = () => {
       <Text>{`${game.firstReleaseDate.split('-')[0]} ・ ${game.developer}`}</Text>
       <Text>{`플랫폼 : ${toConcat(game.platforms)}`}</Text>
       <Text>{`장르 : ${toConcat(game.genres)}`}</Text>
-      <Text>{`테마 : ${toConcat(game.themes)}`}</Text>
-      <Text>{`시점 : ${toConcat(game.playerPerspectives)}`}</Text>
-      <Text>{`지원 모드 : ${toConcat(game.gameModes)}`}</Text>
+      {/* <Text>{`테마 : ${toConcat(game.themes)}`}</Text> */}
+      {/* <Text>{`시점 : ${toConcat(game.playerPerspectives)}`}</Text> */}
+      {/* <Text>{`지원 모드 : ${toConcat(game.gameModes)}`}</Text> */}
       <Line />
     </Wrapper>
   );
-}
+};
 
 export default BasicInformation;

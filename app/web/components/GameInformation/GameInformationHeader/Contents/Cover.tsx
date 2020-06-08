@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useGameInformationContext } from 'web/components/GameInformation/Context';
+import { useGameInformationContext } from 'web/components/GameInformation/GameContext';
 import { Colors } from 'shared/assets/color';
 import {
   MOBILE_BIG_WIDTH,

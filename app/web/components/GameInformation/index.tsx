@@ -5,11 +5,15 @@ import React, {
 import styled from 'styled-components';
 import GameInformationHeader from 'web/components/GameInformation/GameInformationHeader';
 import GameDetailInformation from 'web/components/GameInformation/GameDetailInformation';
-import { GameProvider } from 'web/components/GameInformation/Context';
+import { GameProvider } from 'web/components/GameInformation/GameContext';
 import axios from 'axios';
 import { API_URL } from 'shared/API_INFO';
 import APIS from 'shared/APIS';
-import { Game } from 'shared/model/game';
+import {
+  Game,
+  SimpleGame,
+} from 'web/model/game';
+import { SimilarGamesProvider } from 'web/components/GameInformation/SimilarGamesContext';
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,11 +22,23 @@ const Wrapper = styled.div`
 
 const GameInformation = () => {
   const [game, setGame] = useState<Game | null>(null);
+  const [similarGames, setSimilarGames] = useState<SimpleGame[] | null>(null);
 
   const getGame = async (gameId: number) => {
     const result = await axios({
       method: 'get',
-      url: `${API_URL}${APIS.games}`,
+      url: `${API_URL}${APIS.game}`,
+      params: {
+        id: gameId,
+      },
+    });
+    return result;
+  };
+
+  const getSimpleGame = async (gameId: number) => {
+    const result = await axios({
+      method: 'get',
+      url: `${API_URL}${APIS.simpleGame}`,
       params: {
         id: gameId,
       },
@@ -31,18 +47,33 @@ const GameInformation = () => {
   };
 
   useEffect(() => {
-    getGame(1279)
+    getGame(1331)
       .then((res) => {
-        setGame(res.data);
-        console.log(res.data);
+        setGame(() => res.data);
+        return res.data.similarGames;
+      })
+      // eslint-disable-next-line no-shadow
+      .then((similarGames: number[]) => {
+        const promises = [];
+        similarGames.forEach((similarGame) => {
+          promises.push(getSimpleGame(similarGame));
+        });
+        return promises;
+      })
+      .then((promises) => Promise.all(promises))
+      // eslint-disable-next-line no-shadow
+      .then((results) => {
+        setSimilarGames(results.map((res) => res.data));
       });
   }, []);
 
   return (
     <Wrapper>
       <GameProvider value={game}>
-        <GameInformationHeader />
-        <GameDetailInformation />
+        <SimilarGamesProvider value={similarGames}>
+          <GameInformationHeader />
+          <GameDetailInformation />
+        </SimilarGamesProvider>
       </GameProvider>
     </Wrapper>
   );

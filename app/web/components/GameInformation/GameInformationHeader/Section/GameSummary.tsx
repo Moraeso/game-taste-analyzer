@@ -6,7 +6,7 @@ import {
   MOBILE_BIG_WIDTH,
   MOBILE_WIDTH,
 } from 'web/constants';
-import { useGameInformationContext } from 'web/components/GameInformation/Context';
+import { useGameInformationContext } from 'web/components/GameInformation/GameContext';
 
 const Wrapper = styled.div`
   width: 960px;

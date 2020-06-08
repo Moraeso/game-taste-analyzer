@@ -1,6 +1,7 @@
 import express from 'express';
 import applyReactSupport from 'server/applyReactSupport';
-import gamesRouter from 'server/api/game/gamesRouter';
+import gameApi from 'server/apis/game/game.api';
+import simpleGameApi from 'server/apis/game/simpleGame.api';
 import APIS from 'shared/APIS';
 
 const expressApp = () => {
@@ -9,7 +10,8 @@ const expressApp = () => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
 
-  app.use(APIS.games, gamesRouter);
+  app.use(APIS.simpleGame, simpleGameApi);
+  app.use(APIS.game, gameApi);
 
   // app.get('/health', (req, res) => {
   //   res.json({

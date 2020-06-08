@@ -1,8 +1,12 @@
-import db from 'server/service/dbConnect';
+import db from 'server/services/dbConnect';
 import {
+  Game,
   GameDbFormat,
 } from 'server/model/game';
-import { Game } from 'shared/model/game';
+import {
+  ONLY_SIMPLE_GAME_DATA,
+  NO_GAME_DATA,
+} from 'server/constants';
 
 const toConcat = (stringArray: string[]): string => stringArray.join(',');
 const toSeparate = (concatString: string): string[] => concatString.split(',');
@@ -47,19 +51,22 @@ const convertGameDbFormatToRegular = (dbFormat: GameDbFormat): Game => ({
   popularity: dbFormat.popularity,
   totalRating: dbFormat.total_rating,
   totalRatingCount: dbFormat.total_rating_count,
-  similarGame: null,
+  similarGames: null,
 });
 
-export const getGameRegularFromDb = async (id: number): Promise<Game> => {
+export const getGameRegularFromDb = async (id: number): Promise<Game | number> => {
   const data = await db.queryPromised(`select * from game where id = ?`, [id]);
   if (data.length <= 0) {
-    return null;
+    return NO_GAME_DATA;
+  }
+  if (!data[0].developer) {
+    return ONLY_SIMPLE_GAME_DATA;
   }
   const game: GameDbFormat = data[0];
   return convertGameDbFormatToRegular(game);
 };
 
-export const getSimilarGameFromDb = async (id: number): Promise<number[]> => {
+export const getSimilarGamesFromDb = async (id: number): Promise<number[]> => {
   const data = await db.queryPromised(`select * from similar_games where game = ?`, [id]);
   if (data.length <= 0) {
     return null;
@@ -71,15 +78,29 @@ export const getSimilarGameFromDb = async (id: number): Promise<number[]> => {
 
 export const insertGameIntoDb = async (regular: Game): Promise<void> => {
   const game: GameDbFormat = convertGameRegularToDbFormat(regular);
-  await db.queryPromised(`insert into game
-    (id, name, developer, first_release_date, platforms, genres, themes, player_perspectives, game_modes, summary,
-    cover, artworks, screenshots, video, website, popularity, total_rating, total_rating_count)
-    values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-  [
-    game.id, game.name, game.developer, game.first_release_date, game.platforms, game.genres, game.themes,
-    game.player_perspectives, game.game_modes, game.summary, game.cover, game.artworks, game.screenshots, game.video,
-    game.website, game.popularity, game.total_rating, game.total_rating_count,
-  ]);
+  const query = `insert into game (id, name, developer, first_release_date, platforms, genres, themes, player_perspectives,
+    game_modes, summary, cover, artworks, screenshots, video, website, popularity, total_rating, total_rating_count)
+    values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  await db.queryPromised(query,
+    [
+      game.id, game.name, game.developer, game.first_release_date, game.platforms, game.genres, game.themes,
+      game.player_perspectives, game.game_modes, game.summary, game.cover, game.artworks, game.screenshots, game.video,
+      game.website, game.popularity, game.total_rating, game.total_rating_count,
+    ]);
+};
+
+export const updateGameDb = async (regular: Game): Promise<void> => {
+  const game: GameDbFormat = convertGameRegularToDbFormat(regular);
+  const query = `update game set name = ?, developer = ?, first_release_date = ?, platforms = ?, genres = ?,
+  themes = ?, player_perspectives = ?, game_modes = ?, summary = ?, cover = ?, artworks = ?, screenshots = ?, video = ?,
+    website = ?, popularity = ?, total_rating = ?, total_rating_count = ? where id = ${game.id}`;
+  await db.queryPromised(query,
+    [
+      game.name, game.developer, game.first_release_date, game.platforms, game.genres, game.themes,
+      game.player_perspectives, game.game_modes, game.summary, game.cover, game.artworks, game.screenshots, game.video,
+      game.website, game.popularity, game.total_rating, game.total_rating_count,
+      game.website, game.popularity, game.total_rating, game.total_rating_count,
+    ]);
 };
 
 export const insertSimilarGamesIntoDb = async (game: number, similarGamesId: number[]): Promise<void> => {

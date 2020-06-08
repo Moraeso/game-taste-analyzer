@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useGameInformationContext } from 'web/components/GameInformation/Context';
+import { useGameInformationContext } from 'web/components/GameInformation/GameContext';
 import { Colors } from 'shared/assets/color';
 import EmptySpace from 'web/components/shared/EmptySpace';
 import ImageSlider from 'web/components/GameInformation/GameDetailInformation/Contents/ImageSlider';
@@ -16,7 +16,7 @@ const Text = styled.div`
 `;
 
 const Line = styled.div`
-  width: 100%;
+  width: auto;
   height: 1px;
   margin: 20px 22px;
   background-color: ${Colors.gray2};

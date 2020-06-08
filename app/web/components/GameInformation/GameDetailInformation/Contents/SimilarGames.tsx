@@ -1,22 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useGameInformationContext } from 'web/components/GameInformation/GameContext';
 import { Colors } from 'shared/assets/color';
-import {
-  DESKTOP_NORMAL,
-  DESKTOP_SMALL,
-  MOBILE_WIDTH,
-} from 'web/constants';
-import Box from 'web/components/GameInformation/GameDetailInformation/Box';
-import EmptySpace from 'web/components/shared/EmptySpace';
+import { useSimilarGamesContext } from 'web/components/GameInformation/SimilarGamesContext';
 import ImageSlider from 'web/components/GameInformation/GameDetailInformation/Contents/ImageSlider';
+import { SimpleGame } from 'web/model/game';
+import EmptySpace from 'web/components/shared/EmptySpace';
 
 const Wrapper = styled.div`
-`;
-
-const Img = styled.img`
-  width: 300px;
-  height: auto;
 `;
 
 const Text = styled.div`
@@ -25,6 +15,7 @@ const Text = styled.div`
   font-weight: bold;
   color: ${Colors.gray9};
 `;
+
 const Line = styled.div`
   width: auto;
   height: 1px;
@@ -32,20 +23,20 @@ const Line = styled.div`
   background-color: ${Colors.gray2};
 `;
 
-const Artworks = () => {
-  const game = useGameInformationContext();
-  if (!game) return null;
-  if (!game.artworks) return null;
+const SimilarGames = () => {
+  const similarGames = useSimilarGamesContext();
+  if (!similarGames) return null;
+
   return (
     <Wrapper>
       <Text>
-        아트웍
+        비슷한 게임
       </Text>
       <EmptySpace marginTop="10px" />
-      <ImageSlider imgList={game.artworks} defaultWidth={160} />
+      <ImageSlider imgList={similarGames.map((game: SimpleGame) => game.cover)} defaultWidth={140} />
       <Line />
     </Wrapper>
   );
 }
 
-export default Artworks;
+export default SimilarGames;

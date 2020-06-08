@@ -1,3 +1,32 @@
+export interface Game {
+  id: number | null;
+  name: string | null;
+  developer: string | null;
+  firstReleaseDate: Date | null;
+  platforms: string[] | null;
+  genres: string[] | null;
+  themes: string[] | null;
+  playerPerspectives: string[];
+  gameModes: string[] | null;
+  summary: string | null;
+  cover: string | null;
+  artworks: string[] | null;
+  screenshots: string[] | null;
+  video: string | null;
+  website: string | null;
+  popularity: number | null;
+  totalRating: number | null;
+  totalRatingCount: number | null;
+  similarGames: number[] | null;
+}
+
+export interface SimpleGame {
+  id: number | null;
+  name: string | null;
+  firstReleaseDate: Date | null;
+  cover: string | null;
+}
+
 export interface GameDbFormat {
   id: number | null;
   name: string | null;
@@ -17,11 +46,6 @@ export interface GameDbFormat {
   popularity: number | null;
   total_rating: number | null;
   total_rating_count: number | null;
-}
-
-export interface SimilarGame {
-  game: number;
-  similarGame: number;
 }
 
 export interface GameApiFormat {
@@ -44,4 +68,18 @@ export interface GameApiFormat {
   total_rating: number | null;
   total_rating_count: number | null;
   similar_games: number[] | null;
+}
+
+export interface SimpleGameApiFormat {
+  id: number | null;
+  name: string | null;
+  first_release_date: Date | null;
+  cover: number | null;
+}
+
+export interface SimpleGameDbFormat {
+  id: number | null;
+  name: string | null;
+  first_release_date: Date | null;
+  cover: string | null;
 }

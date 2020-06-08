@@ -1,5 +1,6 @@
 const APIS = {
-  games: '/games',
+  game: '/game',
+  simpleGame: '/simplegame',
 };
 
 export default APIS;
