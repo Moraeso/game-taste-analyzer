@@ -8,13 +8,17 @@ import {
   IoIosArrowBack,
   IoIosArrowForward,
 } from 'react-icons/io';
-import { MOBILE_WIDTH, Z_INDEX } from 'web/constants';
+import {
+  MOBILE_WIDTH,
+  Z_INDEX,
+} from 'web/constants';
 import { Colors } from 'shared/assets/color';
 import { isMobile } from 'react-device-detect';
 import useMedia from 'web/hooks/useMedia';
 
-type ImageSliderProps = {
-  imgList: string[];
+type ItemSliderProps = {
+  itemList: string[];
+  mobileViews: number;
   defaultWidth: number;
 }
 
@@ -66,9 +70,10 @@ const Wrapper = styled.div(({
 const ImgList = styled.div(({
   index,
   isMobileSize,
+  mobileViews,
   interval,
   defaultWidth,
-}: { index: number; isMobileSize: boolean; interval: number; defaultWidth: number }) => css`
+}: { index: number; isMobileSize: boolean; mobileViews: number; interval: number; defaultWidth: number }) => css`
   position: relative;
   display: flex;
   flex-direction: row;
@@ -77,35 +82,56 @@ const ImgList = styled.div(({
   padding: 0 15px;
   transition: 0.175s all ease-in;
   transform: ${isMobileSize
-    ? `translateX(${index * -(interval / 2) + (index * 15)}px)`
-    : `translateX(${index * -(defaultWidth + 10)}px)`};
+    ? `translateX(${(-interval + 30) * Math.floor(index / mobileViews)}px)`
+    : `translateX(${-(defaultWidth + 10) * index}px)`};
 `);
 // transform 1번 조건 : (restLeft 10 / margin 5) / (margin 5 / img1 / margin 5) / (margin 5 / img2 / margin 5) / (margin 5 / restRight 10)
 
-const Img = styled.img(({
+const ImgWrapper = styled.div(({
   isMobileSize,
   mobileViews,
   defaultWidth,
 }: { isMobileSize: number; mobileViews: number; defaultWidth: number }) => css`
-  width: ${isMobileSize ? `calc(50% - 25px)` : `${defaultWidth}px`};
+  position: relative;
+  min-width: ${isMobileSize ? `calc(${100 / mobileViews}% - 10px - ${30 / mobileViews}px)` : `${defaultWidth}px`};
   height: auto;
   margin: 0 5px;
   border: 1px solid ${Colors.gray3};
   border-radius: 3px;
   box-sizing: border-box;
+  &:hover {
+    cursor: pointer;
+    background: ${Colors.gray8};
+  }
 `);
 
-const ImageSlider = ({ imgList, defaultWidth }: ImageSliderProps) => {
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const HoverDarker = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  &:hover {
+    background: ${Colors.gray8};
+    opacity: 0.4;
+  }
+`;
+
+const ItemSlider = ({ itemList, mobileViews, defaultWidth }: ItemSliderProps) => {
   const sliderEl = useRef(null);
   const isMobileSize = useMedia(MOBILE_WIDTH);
   const [index, setIndex] = useState(0);
   const [interval, setInterval] = useState(0);
 
-  const maxIndex = imgList.length - 1;
+  const maxIndex = itemList.length - 1;
 
   const onClickPrev = useCallback((): void => {
     setInterval(sliderEl.current.offsetWidth);
-    const unit = isMobileSize ? 2 : Math.floor(sliderEl.current.offsetWidth / (defaultWidth + 10));
+    const unit = isMobileSize ? mobileViews : Math.floor(sliderEl.current.offsetWidth / (defaultWidth + 10));
     if (index - unit >= 0) {
       setIndex(index - unit);
     } else {
@@ -115,7 +141,7 @@ const ImageSlider = ({ imgList, defaultWidth }: ImageSliderProps) => {
 
   const onClickNext = useCallback((): void => {
     setInterval(sliderEl.current.offsetWidth);
-    const unit = isMobileSize ? 2 : Math.floor(sliderEl.current.offsetWidth / (defaultWidth + 10));
+    const unit = isMobileSize ? mobileViews : Math.floor(sliderEl.current.offsetWidth / (defaultWidth + 10));
     if (index + unit <= maxIndex) {
       setIndex(index + unit);
     } else {
@@ -125,16 +151,23 @@ const ImageSlider = ({ imgList, defaultWidth }: ImageSliderProps) => {
 
   return (
     <Wrapper ref={sliderEl} frameOverflow={isMobile ? 'scroll' : 'hidden'}>
-      <ImgList isMobileSize={isMobileSize} defaultWidth={defaultWidth} interval={interval} index={index}>
-        {imgList.map((img) => (
-          <Img
+      <ImgList
+        isMobileSize={isMobileSize}
+        mobileViews={mobileViews}
+        defaultWidth={defaultWidth}
+        interval={interval}
+        index={index}
+      >
+        {itemList.map((img, i) => (
+          <ImgWrapper
             isMobileSize={isMobileSize}
-            mobileViews={3}
+            mobileViews={mobileViews}
             defaultWidth={defaultWidth}
-            key={img}
-            src={img}
-            alt={img}
-          />
+            key={i.toString()}
+          >
+            <HoverDarker />
+            <Img src={img} alt={img} />
+          </ImgWrapper>
         ))}
       </ImgList>
       {!isMobile && (
@@ -144,7 +177,11 @@ const ImageSlider = ({ imgList, defaultWidth }: ImageSliderProps) => {
               <IoIosArrowBack />
             </ArrowButton>
           </ArrowWrapper>
-          <ArrowWrapper visibility={(index !== maxIndex) ? 'flex' : 'none'} direction="forward">
+          <ArrowWrapper
+            visibility={((isMobileSize && (index <= maxIndex - mobileViews))
+            || (!isMobileSize && ((maxIndex - index + 1) * (defaultWidth + 10) + 30 > interval))) ? 'flex' : 'none'}
+            direction="forward"
+          >
             <ArrowButton onClick={onClickNext}>
               <IoIosArrowForward />
             </ArrowButton>
@@ -155,4 +192,4 @@ const ImageSlider = ({ imgList, defaultWidth }: ImageSliderProps) => {
   );
 };
 
-export default ImageSlider;
+export default ItemSlider;
