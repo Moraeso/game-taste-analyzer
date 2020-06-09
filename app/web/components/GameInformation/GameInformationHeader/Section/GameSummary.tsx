@@ -69,7 +69,7 @@ const GameSummary = () => {
         </SubText>
         <Line />
         <Text>
-          {`IGDB 점수 : ${game.totalRating}(${game.totalRatingCount}명)`}
+          {`IGDB 점수 : ${Math.round(game.totalRating * 100) / 100}(${game.totalRatingCount}명)`}
         </Text>
         <Line />
       </InnerWrapper>

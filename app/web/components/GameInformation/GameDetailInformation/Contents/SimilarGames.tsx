@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Colors } from 'shared/assets/color';
 import { useSimilarGamesContext } from 'web/components/GameInformation/SimilarGamesContext';
-import ImageSlider from 'web/components/GameInformation/GameDetailInformation/Contents/ImageSlider';
+import ItemSlider from 'web/components/GameInformation/GameDetailInformation/Contents/ItemSlider';
 import { SimpleGame } from 'web/model/game';
 import EmptySpace from 'web/components/shared/EmptySpace';
 
@@ -33,7 +33,11 @@ const SimilarGames = () => {
         비슷한 게임
       </Text>
       <EmptySpace marginTop="10px" />
-      <ImageSlider imgList={similarGames.map((game: SimpleGame) => game.cover)} defaultWidth={140} />
+      <ItemSlider
+        itemList={similarGames.map((game: SimpleGame) => game.cover)}
+        mobileViews={4}
+        defaultWidth={140}
+      />
       <Line />
     </Wrapper>
   );

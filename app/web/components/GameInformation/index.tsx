@@ -20,11 +20,11 @@ const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-const GameInformation = () => {
+const GameInformation = ({ gameId }) => {
   const [game, setGame] = useState<Game | null>(null);
   const [similarGames, setSimilarGames] = useState<SimpleGame[] | null>(null);
 
-  const getGame = async (gameId: number) => {
+  const getGame = async () => {
     const result = await axios({
       method: 'get',
       url: `${API_URL}${APIS.game}`,
@@ -35,7 +35,8 @@ const GameInformation = () => {
     return result;
   };
 
-  const getSimpleGame = async (gameId: number) => {
+  // eslint-disable-next-line no-shadow
+  const getSimpleGame = async (gameId) => {
     const result = await axios({
       method: 'get',
       url: `${API_URL}${APIS.simpleGame}`,
@@ -47,7 +48,7 @@ const GameInformation = () => {
   };
 
   useEffect(() => {
-    getGame(1331)
+    getGame()
       .then((res) => {
         setGame(() => res.data);
         return res.data.similarGames;

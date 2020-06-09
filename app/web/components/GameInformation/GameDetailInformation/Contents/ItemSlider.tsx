@@ -67,7 +67,7 @@ const Wrapper = styled.div(({
   }
 `);
 
-const ImgList = styled.div(({
+const ItemList = styled.div(({
   index,
   isMobileSize,
   mobileViews,
@@ -87,7 +87,7 @@ const ImgList = styled.div(({
 `);
 // transform 1번 조건 : (restLeft 10 / margin 5) / (margin 5 / img1 / margin 5) / (margin 5 / img2 / margin 5) / (margin 5 / restRight 10)
 
-const ImgWrapper = styled.div(({
+const ItemWrapper = styled.div(({
   isMobileSize,
   mobileViews,
   defaultWidth,
@@ -96,9 +96,6 @@ const ImgWrapper = styled.div(({
   min-width: ${isMobileSize ? `calc(${100 / mobileViews}% - 10px - ${30 / mobileViews}px)` : `${defaultWidth}px`};
   height: auto;
   margin: 0 5px;
-  border: 1px solid ${Colors.gray3};
-  border-radius: 3px;
-  box-sizing: border-box;
   &:hover {
     cursor: pointer;
     background: ${Colors.gray8};
@@ -108,6 +105,9 @@ const ImgWrapper = styled.div(({
 const Img = styled.img`
   width: 100%;
   height: 100%;
+  border: 1px solid ${Colors.gray3};
+  border-radius: 3px;
+  box-sizing: border-box;
   object-fit: cover;
 `;
 
@@ -151,7 +151,7 @@ const ItemSlider = ({ itemList, mobileViews, defaultWidth }: ItemSliderProps) =>
 
   return (
     <Wrapper ref={sliderEl} frameOverflow={isMobile ? 'scroll' : 'hidden'}>
-      <ImgList
+      <ItemList
         isMobileSize={isMobileSize}
         mobileViews={mobileViews}
         defaultWidth={defaultWidth}
@@ -159,7 +159,7 @@ const ItemSlider = ({ itemList, mobileViews, defaultWidth }: ItemSliderProps) =>
         index={index}
       >
         {itemList.map((img, i) => (
-          <ImgWrapper
+          <ItemWrapper
             isMobileSize={isMobileSize}
             mobileViews={mobileViews}
             defaultWidth={defaultWidth}
@@ -167,9 +167,9 @@ const ItemSlider = ({ itemList, mobileViews, defaultWidth }: ItemSliderProps) =>
           >
             <HoverDarker />
             <Img src={img} alt={img} />
-          </ImgWrapper>
+          </ItemWrapper>
         ))}
-      </ImgList>
+      </ItemList>
       {!isMobile && (
         <>
           <ArrowWrapper visibility={(index !== 0) ? 'flex' : 'none'} direction="back">
@@ -179,7 +179,7 @@ const ItemSlider = ({ itemList, mobileViews, defaultWidth }: ItemSliderProps) =>
           </ArrowWrapper>
           <ArrowWrapper
             visibility={((isMobileSize && (index <= maxIndex - mobileViews))
-            || (!isMobileSize && ((maxIndex - index + 1) * (defaultWidth + 10) + 30 > interval))) ? 'flex' : 'none'}
+              || (!isMobileSize && ((maxIndex - index + 1) * (defaultWidth + 10) + 30 > interval))) ? 'flex' : 'none'}
             direction="forward"
           >
             <ArrowButton onClick={onClickNext}>

@@ -1,9 +1,9 @@
 import React from 'react';
 import GameInformation from 'web/components/GameInformation';
 
-const MainContainer = () => (
+const MainContainer = ({ match }) => (
   <>
-    <GameInformation />
+    <GameInformation gameId={match.params.gameId} />
   </>
 );
 

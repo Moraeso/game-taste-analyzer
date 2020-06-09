@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useGameInformationContext } from 'web/components/GameInformation/GameContext';
 import { Colors } from 'shared/assets/color';
 import EmptySpace from 'web/components/shared/EmptySpace';
-import ImageSlider from 'web/components/GameInformation/GameDetailInformation/Contents/ImageSlider';
+import ItemSlider from 'web/components/GameInformation/GameDetailInformation/Contents/ItemSlider';
 
 const Wrapper = styled.div`
 `;
@@ -33,7 +33,7 @@ const Screenshots = () => {
         스크린샷
       </Text>
       <EmptySpace marginTop="10px" />
-      <ImageSlider imgList={game.screenshots} defaultWidth={160} />
+      <ItemSlider itemList={game.screenshots} mobileViews={2} defaultWidth={160} />
       <Line />
     </Wrapper>
   );

@@ -2,21 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { useGameInformationContext } from 'web/components/GameInformation/GameContext';
 import { Colors } from 'shared/assets/color';
-import {
-  DESKTOP_NORMAL,
-  DESKTOP_SMALL,
-  MOBILE_WIDTH,
-} from 'web/constants';
-import Box from 'web/components/GameInformation/GameDetailInformation/Box';
 import EmptySpace from 'web/components/shared/EmptySpace';
-import ImageSlider from 'web/components/GameInformation/GameDetailInformation/Contents/ImageSlider';
+import ItemSlider from 'web/components/GameInformation/GameDetailInformation/Contents/ItemSlider';
 
 const Wrapper = styled.div`
-`;
-
-const Img = styled.img`
-  width: 300px;
-  height: auto;
 `;
 
 const Text = styled.div`
@@ -42,7 +31,7 @@ const Artworks = () => {
         아트웍
       </Text>
       <EmptySpace marginTop="10px" />
-      <ImageSlider imgList={game.artworks} defaultWidth={160} />
+      <ItemSlider itemList={game.artworks} mobileViews={2} defaultWidth={160} />
       <Line />
     </Wrapper>
   );

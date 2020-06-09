@@ -38,6 +38,8 @@
     "lint:staged"
   ],
   "dependencies": {
+    "@types/react-router": "^5.1.7",
+    "@types/react-router-dom": "^5.1.5",
     "apicalypse": "^0.1.6",
     "compression": "^1.7.4",
     "concurrently": "^5.1.0",
@@ -50,6 +52,8 @@
     "react-device-detect": "^1.12.1",
     "react-icons": "^3.10.0",
     "react-redux": "^7.2.0",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
     "rimraf": "^3.0.0",
     "shelljs": "^0.8.3",

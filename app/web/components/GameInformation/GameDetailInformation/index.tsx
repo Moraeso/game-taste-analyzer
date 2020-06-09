@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   background-color: ${Colors.gray1};
-  padding-top: 28px;
+  padding: 28px 0;
   @media (max-width: ${MOBILE_BIG_WIDTH}) {
     flex-direction: column;
     align-items: center;
