@@ -11,46 +11,46 @@ import {
 const toConcat = (stringArray: string[]): string => stringArray.join(',');
 const toSeparate = (concatString: string): string[] => concatString.split(',');
 
-const convertGameRegularToDbFormat = (regular: Game): GameDbFormat => ({
-  id: regular.id,
-  name: regular.name,
-  developer: regular.developer,
-  first_release_date: regular.firstReleaseDate,
-  platforms: regular.platforms ? toConcat(regular.platforms) : null,
-  genres: regular.genres ? toConcat(regular.genres) : null,
-  themes: regular.themes ? toConcat(regular.themes) : null,
-  player_perspectives: regular.playerPerspectives ? toConcat(regular.playerPerspectives) : null,
-  game_modes: regular.gameModes ? toConcat(regular.gameModes) : null,
-  summary: regular.summary,
-  cover: regular.cover,
-  artworks: regular.artworks ? toConcat(regular.artworks) : null,
-  screenshots: regular.screenshots ? toConcat(regular.screenshots) : null,
-  video: regular.video,
-  website: regular.website,
-  popularity: regular.popularity,
-  total_rating: regular.totalRating,
-  total_rating_count: regular.totalRatingCount,
+const convertGameRegularToDbFormat = (g: Game): GameDbFormat => ({
+  id: g.id,
+  name: g.name,
+  developer: g.developer,
+  first_release_date: g.firstReleaseDate,
+  platforms: g.platforms ? toConcat(g.platforms) : null,
+  genres: g.genres ? toConcat(g.genres) : null,
+  themes: g.themes ? toConcat(g.themes) : null,
+  player_perspectives: g.playerPerspectives ? toConcat(g.playerPerspectives) : null,
+  game_modes: g.gameModes ? toConcat(g.gameModes) : null,
+  summary: g.summary,
+  cover: g.cover,
+  artworks: g.artworks ? toConcat(g.artworks) : null,
+  screenshots: g.screenshots ? toConcat(g.screenshots) : null,
+  video: g.video,
+  website: g.website,
+  popularity: g.popularity,
+  total_rating: g.totalRating,
+  total_rating_count: g.totalRatingCount,
 });
 
-const convertGameDbFormatToRegular = (dbFormat: GameDbFormat): Game => ({
-  id: dbFormat.id,
-  name: dbFormat.name,
-  developer: dbFormat.developer,
-  firstReleaseDate: dbFormat.first_release_date,
-  platforms: dbFormat.platforms ? toSeparate(dbFormat.platforms) : null,
-  genres: dbFormat.genres ? toSeparate(dbFormat.genres) : null,
-  themes: dbFormat.themes ? toSeparate(dbFormat.themes) : null,
-  playerPerspectives: dbFormat.player_perspectives ? toSeparate(dbFormat.player_perspectives) : null,
-  gameModes: dbFormat.game_modes ? toSeparate(dbFormat.game_modes) : null,
-  summary: dbFormat.summary,
-  cover: dbFormat.cover,
-  artworks: dbFormat.artworks ? toSeparate(dbFormat.artworks) : null,
-  screenshots: dbFormat.screenshots ? toSeparate(dbFormat.screenshots) : null,
-  video: dbFormat.video,
-  website: dbFormat.website,
-  popularity: dbFormat.popularity,
-  totalRating: dbFormat.total_rating,
-  totalRatingCount: dbFormat.total_rating_count,
+const convertGameDbFormatToRegular = (g: GameDbFormat): Game => ({
+  id: g.id,
+  name: g.name,
+  developer: g.developer,
+  firstReleaseDate: g.first_release_date,
+  platforms: g.platforms ? toSeparate(g.platforms) : null,
+  genres: g.genres ? toSeparate(g.genres) : null,
+  themes: g.themes ? toSeparate(g.themes) : null,
+  playerPerspectives: g.player_perspectives ? toSeparate(g.player_perspectives) : null,
+  gameModes: g.game_modes ? toSeparate(g.game_modes) : null,
+  summary: g.summary,
+  cover: g.cover,
+  artworks: g.artworks ? toSeparate(g.artworks) : null,
+  screenshots: g.screenshots ? toSeparate(g.screenshots) : null,
+  video: g.video,
+  website: g.website,
+  popularity: g.popularity,
+  totalRating: g.total_rating,
+  totalRatingCount: g.total_rating_count,
   similarGames: null,
 });
 
@@ -59,7 +59,7 @@ export const getGameRegularFromDb = async (id: number): Promise<Game | number> =
   if (data.length <= 0) {
     return NO_GAME_DATA;
   }
-  if (!data[0].developer) {
+  if (!data[0].developer && !data[0].platforms) {
     return ONLY_SIMPLE_GAME_DATA;
   }
   const game: GameDbFormat = data[0];
@@ -77,29 +77,29 @@ export const getSimilarGamesFromDb = async (id: number): Promise<number[]> => {
 };
 
 export const insertGameIntoDb = async (regular: Game): Promise<void> => {
-  const game: GameDbFormat = convertGameRegularToDbFormat(regular);
+  const g: GameDbFormat = convertGameRegularToDbFormat(regular);
   const query = `insert into game (id, name, developer, first_release_date, platforms, genres, themes, player_perspectives,
     game_modes, summary, cover, artworks, screenshots, video, website, popularity, total_rating, total_rating_count)
     values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
   await db.queryPromised(query,
     [
-      game.id, game.name, game.developer, game.first_release_date, game.platforms, game.genres, game.themes,
-      game.player_perspectives, game.game_modes, game.summary, game.cover, game.artworks, game.screenshots, game.video,
-      game.website, game.popularity, game.total_rating, game.total_rating_count,
+      g.id, g.name, g.developer, g.first_release_date, g.platforms, g.genres, g.themes,
+      g.player_perspectives, g.game_modes, g.summary, g.cover, g.artworks, g.screenshots, g.video,
+      g.website, g.popularity, g.total_rating, g.total_rating_count,
     ]);
 };
 
 export const updateGameDb = async (regular: Game): Promise<void> => {
-  const game: GameDbFormat = convertGameRegularToDbFormat(regular);
+  const g: GameDbFormat = convertGameRegularToDbFormat(regular);
   const query = `update game set name = ?, developer = ?, first_release_date = ?, platforms = ?, genres = ?,
   themes = ?, player_perspectives = ?, game_modes = ?, summary = ?, cover = ?, artworks = ?, screenshots = ?, video = ?,
-    website = ?, popularity = ?, total_rating = ?, total_rating_count = ? where id = ${game.id}`;
+    website = ?, popularity = ?, total_rating = ?, total_rating_count = ? where id = ${g.id}`;
   await db.queryPromised(query,
     [
-      game.name, game.developer, game.first_release_date, game.platforms, game.genres, game.themes,
-      game.player_perspectives, game.game_modes, game.summary, game.cover, game.artworks, game.screenshots, game.video,
-      game.website, game.popularity, game.total_rating, game.total_rating_count,
-      game.website, game.popularity, game.total_rating, game.total_rating_count,
+      g.name, g.developer, g.first_release_date, g.platforms, g.genres, g.themes,
+      g.player_perspectives, g.game_modes, g.summary, g.cover, g.artworks, g.screenshots, g.video,
+      g.website, g.popularity, g.total_rating, g.total_rating_count,
+      g.website, g.popularity, g.total_rating, g.total_rating_count,
     ]);
 };
 

@@ -148,23 +148,23 @@ const getWebsite = async (gameId: number): Promise<string> => {
   return website.url;
 };
 
-export const convertGameApiFormatToRegular = async (original: GameApiFormat): Promise<Game> => {
-  const developer = await getDeveloper(original.involved_companies);
-  const firstReleaseDate = convertUnixTimeStampToDate(original.first_release_date);
-  const platforms = await getPlatforms(original.platforms);
-  const genres = await getGenres(original.genres);
-  const themes = await getThemes(original.themes);
-  const playerPerspectives = await getPlayerPerspectives(original.player_perspectives);
-  const gameModes = await getGameModes(original.game_modes);
-  const cover = await getCover(original.cover);
-  const artworks = await getArtworks(original.artworks);
-  const screenshots = await getScreenshots(original.screenshots);
-  const video = await getVideo(original.videos[0]);
-  const website = await getWebsite(original.id);
+export const convertGameApiFormatToRegular = async (g: GameApiFormat): Promise<Game> => {
+  const developer = await getDeveloper(g.involved_companies);
+  const firstReleaseDate = convertUnixTimeStampToDate(g.first_release_date);
+  const platforms = await getPlatforms(g.platforms);
+  const genres = await getGenres(g.genres);
+  const themes = await getThemes(g.themes);
+  const playerPerspectives = await getPlayerPerspectives(g.player_perspectives);
+  const gameModes = await getGameModes(g.game_modes);
+  const cover = await getCover(g.cover);
+  const artworks = await getArtworks(g.artworks);
+  const screenshots = await getScreenshots(g.screenshots);
+  const video = await getVideo(g.videos ? g.videos[0] : null);
+  const website = await getWebsite(g.id);
 
   return {
-    id: original.id,
-    name: original.name,
+    id: g.id,
+    name: g.name,
     developer,
     firstReleaseDate,
     platforms,
@@ -172,15 +172,15 @@ export const convertGameApiFormatToRegular = async (original: GameApiFormat): Pr
     themes,
     playerPerspectives,
     gameModes,
-    summary: original.summary,
+    summary: g.summary,
     cover,
     artworks,
     screenshots,
     video,
     website,
-    popularity: original.popularity,
-    totalRating: original.total_rating,
-    totalRatingCount: original.total_rating_count,
+    popularity: g.popularity,
+    totalRating: g.total_rating,
+    totalRatingCount: g.total_rating_count,
     similarGames: null,
   };
 };

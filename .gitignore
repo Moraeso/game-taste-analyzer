@@ -52,7 +52,7 @@ junit.xml
 .vscode/*
 junit/*
 
-!/app/shared/API_INFO.js
+!/app/shared/constants
 
 .package-lock-md5
 

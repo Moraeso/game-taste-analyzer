@@ -5,6 +5,8 @@ import styled from 'styled-components';
 
 type SlideButtonProps = {
   index: number;
+  unit: number;
+  isHovering: boolean;
   onClickPrev: Function;
   onClickNext: Function;
 }
@@ -12,12 +14,16 @@ type SlideButtonProps = {
 const Wrapper = styled.div`
 `;
 
-const SlideButton = ({ index, onClickPrev, onClickNext }: SlideButtonProps) => {
+const SlideButton = ({ index, unit, isHovering, onClickPrev, onClickNext }: SlideButtonProps) => {
   return (
-    <Wrapper>
-      <ButtonPrev index={index} onClickPrev={onClickPrev} />
-      <ButtonNext index={index} onClickNext={onClickNext} />
-    </Wrapper>
+    <>
+      {isHovering && (
+        <Wrapper>
+          <ButtonPrev index={index} onClickPrev={onClickPrev} />
+          <ButtonNext index={index} unit={unit} onClickNext={onClickNext} />
+        </Wrapper>
+      )}
+    </>
   );
 };
 

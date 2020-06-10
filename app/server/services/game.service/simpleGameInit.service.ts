@@ -16,30 +16,30 @@ const getCover = async (coverId: number): Promise<string> => {
     .replace('t_thumb', 't_1080p'); // 1080p, 720p, cover_big, cover_small
 };
 
-const convertSimpleGameDbFormatToRegular = (dbFormat: SimpleGameDbFormat): SimpleGame => ({
-  id: dbFormat.id,
-  name: dbFormat.name,
-  firstReleaseDate: dbFormat.first_release_date,
-  cover: dbFormat.cover,
+const convertSimpleGameDbFormatToRegular = (g: SimpleGameDbFormat): SimpleGame => ({
+  id: g.id,
+  name: g.name,
+  firstReleaseDate: g.first_release_date,
+  cover: g.cover,
 });
 
-export const convertSimpleGameApiFormatToRegular = async (original: SimpleGameApiFormat): Promise<SimpleGame> => {
-  const firstReleaseDate = convertUnixTimeStampToDate(original.first_release_date);
-  const cover = await getCover(original.cover);
+export const convertSimpleGameApiFormatToRegular = async (g: SimpleGameApiFormat): Promise<SimpleGame> => {
+  const firstReleaseDate = convertUnixTimeStampToDate(g.first_release_date);
+  const cover = await getCover(g.cover);
 
   return {
-    id: original.id,
-    name: original.name,
+    id: g.id,
+    name: g.name,
     firstReleaseDate,
     cover,
   };
 };
 
-const convertSimpleGameRegularToDbFormat = (regular: SimpleGame): SimpleGameDbFormat => ({
-  id: regular.id,
-  name: regular.name,
-  first_release_date: regular.firstReleaseDate,
-  cover: regular.cover,
+const convertSimpleGameRegularToDbFormat = (g: SimpleGame): SimpleGameDbFormat => ({
+  id: g.id,
+  name: g.name,
+  first_release_date: g.firstReleaseDate,
+  cover: g.cover,
 });
 
 export const getSimpleGameFromApi = async (id: number): Promise<SimpleGameApiFormat> => {
@@ -64,7 +64,7 @@ export const getSimpleGameRegularFromDb = async (id: number): Promise<SimpleGame
 };
 
 export const insertSimpleGameIntoDb = async (regular: SimpleGame): Promise<void> => {
-  const game: SimpleGameDbFormat = convertSimpleGameRegularToDbFormat(regular);
+  const g: SimpleGameDbFormat = convertSimpleGameRegularToDbFormat(regular);
   await db.queryPromised(`insert into game (id, name, first_release_date, cover) values (?, ?, ?, ?)`,
-    [game.id, game.name, game.first_release_date, game.cover]);
+    [g.id, g.name, g.first_release_date, g.cover]);
 };

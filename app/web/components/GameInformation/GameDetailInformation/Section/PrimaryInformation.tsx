@@ -4,6 +4,7 @@ import Box from 'web/components/GameInformation/GameDetailInformation/Box';
 import BasicInformation from 'web/components/GameInformation/GameDetailInformation/Contents/BasicInformation';
 import { MOBILE_WIDTH } from 'web/constants';
 import SimilarGames from 'web/components/GameInformation/GameDetailInformation/Contents/SimilarGames';
+import Videos from 'web/components/GameInformation/GameDetailInformation/Contents/Video';
 
 const Wrapper = styled.div`
   width: 640px;
@@ -20,6 +21,7 @@ const PrimaryInformation = () => {
       <Box>
         <BasicInformation />
         <SimilarGames />
+        <Videos />
       </Box>
     </Wrapper>
   );

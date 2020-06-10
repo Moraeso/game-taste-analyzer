@@ -11,6 +11,7 @@ import useMedia from 'web/hooks/useMedia';
 
 type NextButtonProps = {
   index: number;
+  unit: number;
   onClickNext: Function;
 }
 
@@ -39,12 +40,12 @@ const ArrowButton = styled.div`
   //z-index: ${Z_INDEX.SIMPLE_TOP};
 `;
 
-const ButtonNext = ({ index, onClickNext }: NextButtonProps) => {
+const ButtonNext = ({ index, unit, onClickNext }: NextButtonProps) => {
   const isMobileSize = useMedia(MOBILE_WIDTH);
   const { mobileViews, maxIndex } = useItemSliderContext();
 
   const isLastPage = useMemo(() => (
-    isMobileSize && (index > maxIndex - mobileViews)) || (!isMobileSize && (index === maxIndex)),
+    isMobileSize && (index > maxIndex - mobileViews)) || (!isMobileSize && (unit > (maxIndex - index))),
   [index, isMobileSize]);
 
   return (

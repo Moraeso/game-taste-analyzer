@@ -43,8 +43,8 @@ const BasicInformation = () => {
         기본 정보
       </TitleText>
       <EmptySpace marginTop="10px" />
-      <Text>{game.name}</Text>
-      <Text>{`${firstReleaseDate} ・ ${game.developer}`}</Text>
+      <Text>{`${game.name} (${firstReleaseDate})`}</Text>
+      <Text>{`${game.developer}`}</Text>
       <Text>{`플랫폼 : ${toConcat(game.platforms)}`}</Text>
       <Text>{`장르 : ${toConcat(game.genres)}`}</Text>
       {/* <Text>{`테마 : ${toConcat(game.themes)}`}</Text> */}

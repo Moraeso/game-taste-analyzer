@@ -51,7 +51,7 @@ const LeftGradient = styled.div`
   @media (max-width: ${MOBILE_WIDTH}) {
     display: none;
   }
-`
+`;
 
 const RightGradient = styled.div`
   position: absolute;
@@ -64,7 +64,7 @@ const RightGradient = styled.div`
   @media (max-width: ${MOBILE_WIDTH}) {
     display: none;
   }
-`
+`;
 
 const BackgroundImage = () => {
   const game = useGameInformationContext();

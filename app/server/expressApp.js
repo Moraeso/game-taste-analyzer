@@ -1,8 +1,9 @@
 import express from 'express';
+import gameCollect from 'server/apis/game/gameCollect.api';
 import applyReactSupport from 'server/applyReactSupport';
 import gameApi from 'server/apis/game/game.api';
 import simpleGameApi from 'server/apis/game/simpleGame.api';
-import APIS from 'shared/APIS';
+import { APIS } from 'shared/constants';
 
 const expressApp = () => {
   // const startedDate = new Date();
@@ -12,7 +13,7 @@ const expressApp = () => {
 
   app.use(APIS.simpleGame, simpleGameApi);
   app.use(APIS.game, gameApi);
-
+  app.use(APIS.gameCollect, gameCollect);
   // app.get('/health', (req, res) => {
   //   res.json({
   //     status: 'UP',

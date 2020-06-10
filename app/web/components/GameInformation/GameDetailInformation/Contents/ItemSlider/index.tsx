@@ -1,5 +1,6 @@
 import React, {
   useCallback,
+  useRef,
   useState,
 } from 'react';
 import styled, { css } from 'styled-components';
@@ -34,28 +35,31 @@ const Wrapper = styled.div(({
 
 const ItemSlider = ({ children, mobileViews, defaultWidth, length }: ItemSliderProps) => {
   const isMobileSize = useMedia(MOBILE_WIDTH);
+  const itemSliderRef = useRef(null);
   const [index, setIndex] = useState(0);
+  const [unit, setUnit] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
   const maxIndex = length - 1;
 
   const onClickPrev = useCallback(() => {
-    // setInterval(itemSliderRef.current.offsetWidth);
-    const unit = isMobileSize ? mobileViews : 1;
-    if (index - unit >= 0) {
-      setIndex(index - unit);
+    const newUnit = isMobileSize ? mobileViews : Math.floor(itemSliderRef.current.offsetWidth / (defaultWidth + 10));
+    if (index - newUnit >= 0) {
+      setIndex(index - newUnit);
     } else {
       setIndex(0);
     }
-  }, [index]);
+    setUnit(newUnit);
+  }, [index, unit]);
 
   const onClickNext = useCallback((): void => {
-    // setInterval(sliderEl.current.offsetWidth);
-    const unit = isMobileSize ? mobileViews : 1;
-    if (index + unit <= maxIndex) {
-      setIndex(index + unit);
+    const newUnit = isMobileSize ? mobileViews : Math.floor(itemSliderRef.current.offsetWidth / (defaultWidth + 10));
+    if (index + newUnit <= maxIndex) {
+      setIndex(index + newUnit);
     } else {
       setIndex(maxIndex);
     }
-  }, [index]);
+    setUnit(newUnit);
+  }, [index, unit]);
 
   return (
     <ItemSliderProvider
@@ -65,12 +69,17 @@ const ItemSlider = ({ children, mobileViews, defaultWidth, length }: ItemSliderP
         defaultWidth,
       }}
     >
-      <Wrapper frameOverflow={isMobile ? 'scroll' : 'hidden'}>
+      <Wrapper
+        ref={itemSliderRef}
+        frameOverflow={isMobile ? 'scroll' : 'hidden'}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
         <ItemList index={index}>
           {children}
         </ItemList>
         {!isMobile && (
-          <SlideButton index={index} onClickPrev={onClickPrev} onClickNext={onClickNext} />
+          <SlideButton index={index} unit={unit} isHovering={isHovering} onClickPrev={onClickPrev} onClickNext={onClickNext} />
         )}
       </Wrapper>
     </ItemSliderProvider>
