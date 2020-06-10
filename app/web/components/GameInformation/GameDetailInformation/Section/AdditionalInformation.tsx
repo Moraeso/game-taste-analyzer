@@ -4,7 +4,7 @@ import Box from 'web/components/GameInformation/GameDetailInformation/Box';
 import { MOBILE_BIG_WIDTH, MOBILE_WIDTH } from 'web/constants';
 import Videos from 'web/components/GameInformation/GameDetailInformation/Contents/Video';
 import Artworks from 'web/components/GameInformation/GameDetailInformation/Contents/Artworks';
-import Screenshots from 'web/components/GameInformation/GameDetailInformation/Contents/Screenshots';
+import Index from 'web/components/GameInformation/GameDetailInformation/Contents/Screenshots';
 
 const Wrapper = styled.div`
   width: 320px;
@@ -24,7 +24,7 @@ const AdditionalInformation = () => {
     <Wrapper>
       <Box>
         <Artworks />
-        <Screenshots />
+        <Index />
         <Videos />
       </Box>
     </Wrapper>

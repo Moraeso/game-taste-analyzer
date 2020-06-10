@@ -60,16 +60,19 @@ const Line = styled.div`
 const GameSummary = () => {
   const game = useGameInformationContext();
   if (!game) return null;
+
+  const firstReleaseDate: string = game.firstReleaseDate ? game.firstReleaseDate.split('-')[0] : '출시 예정';
+  const scoreString: string = game.totalRatingCount ? `${Math.round(game.totalRating * 100) / 100}(${game.totalRatingCount}명)` : '집계 안됨';
   return (
     <Wrapper>
       <InnerWrapper>
         <TitleText>{game.name}</TitleText>
         <SubText>
-          {`${game.firstReleaseDate.split('-')[0]} ・ ${game.developer}`}
+          {`${firstReleaseDate} ・ ${game.developer}`}
         </SubText>
         <Line />
         <Text>
-          {`IGDB 점수 : ${Math.round(game.totalRating * 100) / 100}(${game.totalRatingCount}명)`}
+          {`IGDB 점수 : ${scoreString}`}
         </Text>
         <Line />
       </InnerWrapper>

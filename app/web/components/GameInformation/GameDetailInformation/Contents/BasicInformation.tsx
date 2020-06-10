@@ -34,6 +34,9 @@ const BasicInformation = () => {
 
   const game = useGameInformationContext();
   if (!game) return null;
+
+  const firstReleaseDate: string = game.firstReleaseDate ? game.firstReleaseDate.split('-')[0] : '출시 예정';
+
   return (
     <Wrapper>
       <TitleText>
@@ -41,7 +44,7 @@ const BasicInformation = () => {
       </TitleText>
       <EmptySpace marginTop="10px" />
       <Text>{game.name}</Text>
-      <Text>{`${game.firstReleaseDate.split('-')[0]} ・ ${game.developer}`}</Text>
+      <Text>{`${firstReleaseDate} ・ ${game.developer}`}</Text>
       <Text>{`플랫폼 : ${toConcat(game.platforms)}`}</Text>
       <Text>{`장르 : ${toConcat(game.genres)}`}</Text>
       {/* <Text>{`테마 : ${toConcat(game.themes)}`}</Text> */}

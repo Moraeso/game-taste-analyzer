@@ -4,6 +4,7 @@ import { useGameInformationContext } from 'web/components/GameInformation/GameCo
 import { Colors } from 'shared/assets/color';
 import EmptySpace from 'web/components/shared/EmptySpace';
 import ItemSlider from 'web/components/GameInformation/GameDetailInformation/Contents/ItemSlider';
+import ArtworksItems from 'web/components/GameInformation/GameDetailInformation/Contents/Artworks/ArtworksItems';
 
 const Wrapper = styled.div`
 `;
@@ -14,7 +15,6 @@ const Text = styled.div`
   font-weight: bold;
   color: ${Colors.gray9};
 `;
-
 const Line = styled.div`
   width: auto;
   height: 1px;
@@ -22,21 +22,26 @@ const Line = styled.div`
   background-color: ${Colors.gray2};
 `;
 
-const Screenshots = () => {
+const Artworks = () => {
   const game = useGameInformationContext();
   if (!game) return null;
-  if (!game.screenshots) return null;
-
+  if (!game.artworks) return null;
   return (
     <Wrapper>
       <Text>
-        스크린샷
+        아트웍
       </Text>
       <EmptySpace marginTop="10px" />
-      <ItemSlider itemList={game.screenshots} mobileViews={2} defaultWidth={160} />
+      <ItemSlider
+        mobileViews={2}
+        defaultWidth={160}
+        length={game.artworks.length}
+      >
+        <ArtworksItems itemList={game.artworks} />
+      </ItemSlider>
       <Line />
     </Wrapper>
   );
-}
+};
 
-export default Screenshots;
+export default Artworks;

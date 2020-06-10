@@ -20,7 +20,7 @@ simpleGameApi.get('/', async (req, res) => {
     simpleGame = await convertSimpleGameApiFormatToRegular(gameApiFormat);
     await insertSimpleGameIntoDb(simpleGame);
   }
-  console.log(simpleGame);
+  // console.log(simpleGame);
   res.send(simpleGame);
 });
 

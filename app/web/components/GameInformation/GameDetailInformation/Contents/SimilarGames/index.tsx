@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { Colors } from 'shared/assets/color';
 import { useSimilarGamesContext } from 'web/components/GameInformation/SimilarGamesContext';
-import ItemSlider from 'web/components/GameInformation/GameDetailInformation/Contents/ItemSlider';
-import { SimpleGame } from 'web/model/game';
 import EmptySpace from 'web/components/shared/EmptySpace';
+import SimilarGamesItems
+  from 'web/components/GameInformation/GameDetailInformation/Contents/SimilarGames/SimilarGamesItems';
+import ItemSlider from 'web/components/GameInformation/GameDetailInformation/Contents/ItemSlider';
 
 const Wrapper = styled.div`
 `;
@@ -34,13 +35,15 @@ const SimilarGames = () => {
       </Text>
       <EmptySpace marginTop="10px" />
       <ItemSlider
-        itemList={similarGames.map((game: SimpleGame) => game.cover)}
         mobileViews={4}
         defaultWidth={140}
-      />
+        length={similarGames.length}
+      >
+        <SimilarGamesItems itemList={similarGames} />
+      </ItemSlider>
       <Line />
     </Wrapper>
   );
-}
+};
 
 export default SimilarGames;

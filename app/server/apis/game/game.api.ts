@@ -40,7 +40,7 @@ gameApi.get('/', async (req, res) => {
   if (instanceOfGame(game)) {
     game.similarGames = await getSimilarGamesFromDb(id);
   }
-  console.log(game);
+  // console.log(game);
   res.send(game);
 });
 

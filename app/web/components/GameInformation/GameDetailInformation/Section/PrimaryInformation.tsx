@@ -23,6 +23,6 @@ const PrimaryInformation = () => {
       </Box>
     </Wrapper>
   );
-}
+};
 
 export default PrimaryInformation;

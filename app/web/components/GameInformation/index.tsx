@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-const GameInformation = ({ gameId }) => {
+const GameInformation = ({ gameId }: { gameId: number }) => {
   const [game, setGame] = useState<Game | null>(null);
   const [similarGames, setSimilarGames] = useState<SimpleGame[] | null>(null);
 
@@ -66,17 +66,17 @@ const GameInformation = ({ gameId }) => {
       .then((results) => {
         setSimilarGames(results.map((res) => res.data));
       });
-  }, []);
+  }, [gameId]);
 
   return (
-    <Wrapper>
-      <GameProvider value={game}>
-        <SimilarGamesProvider value={similarGames}>
+    <GameProvider value={game}>
+      <SimilarGamesProvider value={similarGames}>
+        <Wrapper>
           <GameInformationHeader />
           <GameDetailInformation />
-        </SimilarGamesProvider>
-      </GameProvider>
-    </Wrapper>
+        </Wrapper>
+      </SimilarGamesProvider>
+    </GameProvider>
   );
 };
 
