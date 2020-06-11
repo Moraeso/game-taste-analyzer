@@ -15,10 +15,8 @@ gameCollect.get('/', async (req, res) => {
   const { id }: { id?: number } = req.query;
   const game: Game | number = await getGameRegularFromDb(id);
   if (game === ONLY_SIMPLE_GAME_DATA) {
-    console.log(false);
     res.send(false);
   }
-  console.log(true);
   res.send(true);
 });
 

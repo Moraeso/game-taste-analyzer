@@ -22,7 +22,7 @@ const getDeveloper = async (involvedCompaniesId: number[]): Promise<string> => {
     }
   });
   const developer = await callGameApi('/companies', `fields name; where id=${developerId};`);
-  return developer.name;
+  return developer?.name;
 };
 
 const getCover = async (coverId: number): Promise<string> => {
@@ -149,7 +149,7 @@ const getWebsite = async (gameId: number): Promise<string> => {
 };
 
 export const convertGameApiFormatToRegular = async (g: GameApiFormat): Promise<Game> => {
-  const developer = await getDeveloper(g.involved_companies);
+  const developer = await getDeveloper(g.involved_companies || null);
   const firstReleaseDate = convertUnixTimeStampToDate(g.first_release_date);
   const platforms = await getPlatforms(g.platforms);
   const genres = await getGenres(g.genres);
@@ -161,6 +161,7 @@ export const convertGameApiFormatToRegular = async (g: GameApiFormat): Promise<G
   const screenshots = await getScreenshots(g.screenshots);
   const video = await getVideo(g.videos ? g.videos[0] : null);
   const website = await getWebsite(g.id);
+  const summary = (g.summary?.length >= 8000) ? g.summary.slice(0, 7999) : g.summary;
 
   return {
     id: g.id,
@@ -172,7 +173,7 @@ export const convertGameApiFormatToRegular = async (g: GameApiFormat): Promise<G
     themes,
     playerPerspectives,
     gameModes,
-    summary: g.summary,
+    summary,
     cover,
     artworks,
     screenshots,

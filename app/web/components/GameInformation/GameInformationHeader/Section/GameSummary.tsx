@@ -63,12 +63,13 @@ const GameSummary = () => {
 
   const firstReleaseDate: string = game.firstReleaseDate ? game.firstReleaseDate.split('-')[0] : '출시 예정';
   const scoreString: string = game.totalRatingCount ? `${Math.round(game.totalRating * 100) / 100}(${game.totalRatingCount}명)` : '집계 안됨';
+  const developerString: string = game.developer ? ` ・ ${game.developer}` : '';
   return (
     <Wrapper>
       <InnerWrapper>
         <TitleText>{game.name}</TitleText>
         <SubText>
-          {`${firstReleaseDate} ・ ${game.developer}`}
+          {`${firstReleaseDate}${developerString}`}
         </SubText>
         <Line />
         <Text>

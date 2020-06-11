@@ -4,9 +4,9 @@ import ButtonNext from 'web/components/GameInformation/GameDetailInformation/Con
 import styled from 'styled-components';
 
 type SlideButtonProps = {
+  show: boolean;
   index: number;
   unit: number;
-  isHovering: boolean;
   onClickPrev: Function;
   onClickNext: Function;
 }
@@ -14,16 +14,12 @@ type SlideButtonProps = {
 const Wrapper = styled.div`
 `;
 
-const SlideButton = ({ index, unit, isHovering, onClickPrev, onClickNext }: SlideButtonProps) => {
+const SlideButton = ({ show, index, unit, onClickPrev, onClickNext }: SlideButtonProps) => {
   return (
-    <>
-      {isHovering && (
-        <Wrapper>
-          <ButtonPrev index={index} onClickPrev={onClickPrev} />
-          <ButtonNext index={index} unit={unit} onClickNext={onClickNext} />
-        </Wrapper>
-      )}
-    </>
+    <Wrapper show={show}>
+      <ButtonPrev index={index} onClickPrev={onClickPrev} />
+      <ButtonNext index={index} unit={unit} onClickNext={onClickNext} />
+    </Wrapper>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { IoIosArrowForward } from 'react-icons/io';
 import { Colors } from 'shared/assets/color';
 import {
@@ -15,16 +15,18 @@ type NextButtonProps = {
   onClickNext: Function;
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div(({
+  show,
+}: { show: boolean }) => css`
+  display: ${show ? 'flex' : 'none'};
   position: absolute;
-  display: flex;
   flex-direction: row;
   align-items: center;
   width: 34px;
   height: 100%;
   top: 0;
   right: 0;
-`;
+`);
 
 const ArrowButton = styled.div`
   // display: none;
@@ -45,19 +47,15 @@ const ButtonNext = ({ index, unit, onClickNext }: NextButtonProps) => {
   const { mobileViews, maxIndex } = useItemSliderContext();
 
   const isLastPage = useMemo(() => (
-    isMobileSize && (index > maxIndex - mobileViews)) || (!isMobileSize && (unit > (maxIndex - index))),
+    (isMobileSize && (index > maxIndex - mobileViews))) || (!isMobileSize && (unit > (maxIndex - index))),
   [index, isMobileSize]);
 
   return (
-    <>
-      {!isLastPage && (
-        <Wrapper>
-          <ArrowButton onClick={onClickNext}>
-            <IoIosArrowForward />
-          </ArrowButton>
-        </Wrapper>
-      )}
-    </>
+    <Wrapper show={!isLastPage}>
+      <ArrowButton onClick={onClickNext}>
+        <IoIosArrowForward />
+      </ArrowButton>
+    </Wrapper>
   );
 };
 

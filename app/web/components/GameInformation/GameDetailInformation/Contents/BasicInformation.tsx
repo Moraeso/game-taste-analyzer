@@ -36,6 +36,8 @@ const BasicInformation = () => {
   if (!game) return null;
 
   const firstReleaseDate: string = game.firstReleaseDate ? game.firstReleaseDate.split('-')[0] : '출시 예정';
+  const platforms: string = game.platforms ? toConcat(game.platforms) : '-';
+  const genres: string = game.genres ? toConcat(game.genres) : '-';
 
   return (
     <Wrapper>
@@ -44,9 +46,9 @@ const BasicInformation = () => {
       </TitleText>
       <EmptySpace marginTop="10px" />
       <Text>{`${game.name} (${firstReleaseDate})`}</Text>
-      <Text>{`${game.developer}`}</Text>
-      <Text>{`플랫폼 : ${toConcat(game.platforms)}`}</Text>
-      <Text>{`장르 : ${toConcat(game.genres)}`}</Text>
+      <Text>{`${game.developer || ''}`}</Text>
+      <Text>{`플랫폼 : ${platforms}`}</Text>
+      <Text>{`장르 : ${genres}`}</Text>
       {/* <Text>{`테마 : ${toConcat(game.themes)}`}</Text> */}
       {/* <Text>{`시점 : ${toConcat(game.playerPerspectives)}`}</Text> */}
       {/* <Text>{`지원 모드 : ${toConcat(game.gameModes)}`}</Text> */}

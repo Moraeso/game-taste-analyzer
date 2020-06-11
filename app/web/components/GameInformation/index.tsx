@@ -14,12 +14,12 @@ import {
   SimpleGame,
 } from 'web/model/game';
 import { SimilarGamesProvider } from 'web/components/GameInformation/SimilarGamesContext';
-import callGameApi from 'server/utils/callGameApi';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 
 const GameInformation = ({ gameId, history }: { gameId: number; history: any }) => {
   const [game, setGame] = useState<Game | null>(null);
@@ -60,49 +60,69 @@ const GameInformation = ({ gameId, history }: { gameId: number; history: any }) 
     return result.data;
   };
 
-  useEffect(() => {
-    if (!similarGames) return;
-    async function getCompleteGameDataList() {
-      const promises = [];
-      similarGames.forEach((g) => {
-        promises.push(isCompleteGameData(g.id));
-      });
-      return Promise.all(promises);
-    }
-    getCompleteGameDataList()
-      .then((games) => {
-        console.log(games);
-        let i;
-        for (i = 0; i < games.length; i += 1) {
-          if (games[i] === false) break;
-        }
-        return similarGames[i];
-      })
-      .then((g) => {
-        console.log(g.name);
-        history.push(`/game/${g.id}`);
-      });
-  }, [similarGames]);
+  // useEffect(() => {
+  //   history.push(`/game/${superId}`);
+  //   superId += 1;
+  // }, [similarGames]);
+
+  // useEffect(() => {
+  //   if (!similarGames) return;
+  //   async function getCompleteGameDataList() {
+  //     const promises = [];
+  //     similarGames.forEach((g) => {
+  //       promises.push(isCompleteGameData(g.id));
+  //     });
+  //     return Promise.all(promises);
+  //   }
+  //   getCompleteGameDataList()
+  //     .then((games) => {
+  //       console.log(games);
+  //       let i;
+  //       for (i = 0; i < games.length; i += 1) {
+  //         if (games[i] === false) break;
+  //       }
+  //       return similarGames[i];
+  //     })
+  //     .then((g) => {
+  //       console.log(`${g.id} / ${g.name}`);
+  //       history.push(`/game/${g.id}`);
+  //     });
+  // }, [similarGames]);
 
   useEffect(() => {
-    getGame()
-      .then((res) => {
-        setGame(() => res.data);
-        return res.data.similarGames;
-      })
-      // eslint-disable-next-line no-shadow
-      .then((similarGames: number[]) => {
-        const promises = [];
-        similarGames.forEach((similarGame) => {
-          promises.push(getSimpleGame(similarGame));
+    try {
+      getGame()
+        .then((res) => {
+          if (res.data === false) {
+            // superId += 1;
+            // history.push(`/game/${superId}`);
+            throw 'get game data failed';
+          }
+          setGame(() => res.data);
+          return res.data.similarGames;
+        })
+        // eslint-disable-next-line no-shadow
+        .then((similarGames?: number[]) => {
+          if (!similarGames) {
+            setSimilarGames(null);
+            // superId += 1;
+            // history.push(`/game/${superId}`);
+            throw 'no similar data';
+          }
+          const promises = [];
+          similarGames.forEach((similarGame) => {
+            promises.push(getSimpleGame(similarGame));
+          });
+          return promises;
+        })
+        .then((promises) => Promise.all(promises))
+        // eslint-disable-next-line no-shadow
+        .then((results) => {
+          setSimilarGames(results.map((res) => res.data));
         });
-        return promises;
-      })
-      .then((promises) => Promise.all(promises))
-      // eslint-disable-next-line no-shadow
-      .then((results) => {
-        setSimilarGames(results.map((res) => res.data));
-      });
+    } catch (error) {
+      console.log(`error: ${error}`);
+    }
   }, [gameId]);
 
   return (

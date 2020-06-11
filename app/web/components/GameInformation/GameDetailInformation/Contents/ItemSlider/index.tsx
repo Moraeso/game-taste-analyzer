@@ -78,9 +78,7 @@ const ItemSlider = ({ children, mobileViews, defaultWidth, length }: ItemSliderP
         <ItemList index={index}>
           {children}
         </ItemList>
-        {!isMobile && (
-          <SlideButton index={index} unit={unit} isHovering={isHovering} onClickPrev={onClickPrev} onClickNext={onClickNext} />
-        )}
+        <SlideButton show={!isMobile && isHovering} index={index} unit={unit} onClickPrev={onClickPrev} onClickNext={onClickNext} />
       </Wrapper>
     </ItemSliderProvider>
   );

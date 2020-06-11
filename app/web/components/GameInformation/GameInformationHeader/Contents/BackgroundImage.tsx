@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Colors } from 'shared/assets/color';
 import { useGameInformationContext } from 'web/components/GameInformation/GameContext';
 import {
@@ -23,7 +23,10 @@ const Wrapper = styled.div`
   }
 `;
 
-const Img = styled.img`
+const Img = styled.img(({
+  show,
+}: { show: boolean }) => css`
+  display: ${show ? 'flex' : 'none'};
   position: absolute;
   top: -50%;
   width: 1024px;
@@ -34,11 +37,11 @@ const Img = styled.img`
   @media (max-width: ${DESKTOP_SMALL}) {
     width: 768px;
   }
-  
+
   @media (max-width: ${MOBILE_WIDTH}) {
     filter: blur(5px);
   }
-`;
+`);
 
 const LeftGradient = styled.div`
   position: absolute;
@@ -69,9 +72,12 @@ const RightGradient = styled.div`
 const BackgroundImage = () => {
   const game = useGameInformationContext();
   if (!game) return null;
+  const show = !!((game.artworks || game.screenshots));
+  // eslint-disable-next-line no-nested-ternary
+  const src = game.artworks ? game.artworks[0] : (game.screenshots ? game.screenshots[0] : '');
   return (
     <Wrapper>
-      <Img src={game.artworks ? game.artworks[0] : game.screenshots[0]} alt={`${game.name}-background`} />
+      <Img show={show} src={src} alt={`${game.name}-background`} />
       <LeftGradient />
       <RightGradient />
     </Wrapper>

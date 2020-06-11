@@ -59,11 +59,11 @@ export const getGameRegularFromDb = async (id: number): Promise<Game | number> =
   if (data.length <= 0) {
     return NO_GAME_DATA;
   }
-  if (!data[0].developer && !data[0].platforms) {
-    return ONLY_SIMPLE_GAME_DATA;
+  if (data[0].developer || data[0].platforms || data[0].genres || data[0].player_perspectives || data[0].game_modes) {
+    const game: GameDbFormat = data[0];
+    return convertGameDbFormatToRegular(game);
   }
-  const game: GameDbFormat = data[0];
-  return convertGameDbFormatToRegular(game);
+  return ONLY_SIMPLE_GAME_DATA;
 };
 
 export const getSimilarGamesFromDb = async (id: number): Promise<number[]> => {

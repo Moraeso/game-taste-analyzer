@@ -29,13 +29,19 @@ gameApi.get('/', async (req, res) => {
   if (game === NO_GAME_DATA || game === ONLY_SIMPLE_GAME_DATA) {
     const state: number = game;
     const gameApiFormat: GameApiFormat = await getGameFromApi(id);
+    if (!gameApiFormat) {
+      res.send(false);
+      return;
+    }
     game = await convertGameApiFormatToRegular(gameApiFormat);
     if (state === NO_GAME_DATA) {
       await insertGameIntoDb(game);
     } else {
       await updateGameDb(game);
     }
-    await insertSimilarGamesIntoDb(id, gameApiFormat.similar_games);
+    if (gameApiFormat.similar_games) {
+      await insertSimilarGamesIntoDb(id, gameApiFormat.similar_games);
+    }
   }
   if (instanceOfGame(game)) {
     game.similarGames = await getSimilarGamesFromDb(id);
