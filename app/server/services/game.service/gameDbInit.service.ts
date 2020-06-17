@@ -11,7 +11,7 @@ import {
 const toConcat = (stringArray: string[]): string => stringArray.join(',');
 const toSeparate = (concatString: string): string[] => concatString.split(',');
 
-const convertGameRegularToDbFormat = (g: Game): GameDbFormat => ({
+export const convertGameRegularToDbFormat = (g: Game): GameDbFormat => ({
   id: g.id,
   name: g.name,
   developer: g.developer,
@@ -32,7 +32,7 @@ const convertGameRegularToDbFormat = (g: Game): GameDbFormat => ({
   total_rating_count: g.totalRatingCount,
 });
 
-const convertGameDbFormatToRegular = (g: GameDbFormat): Game => ({
+export const convertGameDbFormatToRegular = (g: GameDbFormat): Game => ({
   id: g.id,
   name: g.name,
   developer: g.developer,

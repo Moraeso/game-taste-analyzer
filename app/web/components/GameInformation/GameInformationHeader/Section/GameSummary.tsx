@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Colors } from 'shared/assets/color';
 
 import {
@@ -43,12 +43,16 @@ const SubText = styled.div`
   color: ${Colors.gray5};
 `;
 
-const Text = styled.div`
+const Score = styled.div(({
+  color,
+}: {
+  color: string;
+}) => css`
   margin-top: 4px;
   font-weight: bold;
   font-size: 20px;
-  color: ${Colors.gray9};
-`;
+  color: ${color};
+`);
 
 const Line = styled.div`
   width: 100%;
@@ -61,8 +65,17 @@ const GameSummary = () => {
   const game = useGameInformationContext();
   if (!game) return null;
 
+  let scoreColor = Colors.green;
+  if (Math.round(game.totalRating) === 0) {
+    scoreColor = Colors.gray7;
+  } else if (game.totalRating < 50) {
+    scoreColor = Colors.red;
+  } else if (game.totalRating < 85) {
+    scoreColor = Colors.mango;
+  }
+
   const firstReleaseDate: string = game.firstReleaseDate ? game.firstReleaseDate.split('-')[0] : '출시 예정';
-  const scoreString: string = game.totalRatingCount ? `${Math.round(game.totalRating * 100) / 100}(${game.totalRatingCount}명)` : '집계 안됨';
+  const scoreString: string = game.totalRatingCount ? `${Math.round(game.totalRating * 10) / 10}(${game.totalRatingCount}명)` : '집계 안됨';
   const developerString: string = game.developer ? ` ・ ${game.developer}` : '';
   return (
     <Wrapper>
@@ -72,9 +85,9 @@ const GameSummary = () => {
           {`${firstReleaseDate}${developerString}`}
         </SubText>
         <Line />
-        <Text>
+        <Score color={scoreColor}>
           {`IGDB 점수 : ${scoreString}`}
-        </Text>
+        </Score>
         <Line />
       </InnerWrapper>
     </Wrapper>

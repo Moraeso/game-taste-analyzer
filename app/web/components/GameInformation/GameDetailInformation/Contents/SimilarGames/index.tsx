@@ -35,8 +35,8 @@ const SimilarGames = () => {
       </Text>
       <EmptySpace marginTop="10px" />
       <ItemSlider
-        mobileViews={4}
-        defaultWidth={140}
+        mobileViews={2}
+        defaultWidth={220}
         length={similarGames.length}
       >
         <SimilarGamesItems itemList={similarGames} />

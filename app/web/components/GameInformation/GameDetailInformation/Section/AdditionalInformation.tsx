@@ -1,16 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import Box from 'web/components/GameInformation/GameDetailInformation/Box';
-import { MOBILE_BIG_WIDTH, MOBILE_WIDTH } from 'web/constants';
+import {
+  DESKTOP_SMALL,
+  MOBILE_BIG_WIDTH,
+  MOBILE_WIDTH,
+} from 'web/constants';
 import Artworks from 'web/components/GameInformation/GameDetailInformation/Contents/Artworks';
-import Index from 'web/components/GameInformation/GameDetailInformation/Contents/Screenshots';
+import Screenshots from 'web/components/GameInformation/GameDetailInformation/Contents/Screenshots';
 
 const Wrapper = styled.div`
-  width: 320px;
+  width: 480px;
   margin: 0 8px;
-  @media (max-width: ${MOBILE_BIG_WIDTH}) {
+  @media (max-width: ${DESKTOP_SMALL}) {
     margin: 8px;
-    width: 640px;
+    width: 720px;
   }
   @media (max-width: ${MOBILE_WIDTH}) {
     width: 100%;
@@ -23,7 +27,7 @@ const AdditionalInformation = () => {
     <Wrapper>
       <Box>
         <Artworks />
-        <Index />
+        <Screenshots />
       </Box>
     </Wrapper>
   );

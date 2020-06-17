@@ -4,6 +4,7 @@ import { Colors } from 'shared/assets/color';
 import PrimaryInformation from 'web/components/GameInformation/GameDetailInformation/Section/PrimaryInformation';
 import AdditionalInformation from 'web/components/GameInformation/GameDetailInformation/Section/AdditionalInformation';
 import {
+  DESKTOP_SMALL,
   MOBILE_BIG_WIDTH,
 } from 'web/constants';
 
@@ -14,7 +15,7 @@ const Wrapper = styled.div`
   justify-content: center;
   background-color: ${Colors.gray1};
   padding: 28px 0;
-  @media (max-width: ${MOBILE_BIG_WIDTH}) {
+  @media (max-width: ${DESKTOP_SMALL}) {
     flex-direction: column;
     align-items: center;
   }

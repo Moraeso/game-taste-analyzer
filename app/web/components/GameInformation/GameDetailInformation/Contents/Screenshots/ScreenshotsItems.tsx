@@ -4,7 +4,6 @@ import { Colors } from 'shared/assets/color';
 import { useItemSliderContext } from 'web/components/GameInformation/GameDetailInformation/Contents/ItemSlider/ItemSliderContext';
 import useMedia from 'web/hooks/useMedia';
 import { MOBILE_WIDTH } from 'web/constants';
-
 type ScreenshotsProps = {
   itemList: any;
 }

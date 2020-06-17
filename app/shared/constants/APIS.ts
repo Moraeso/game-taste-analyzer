@@ -1,7 +1,8 @@
 const APIS = {
-  game: '/game',
-  simpleGame: '/simpleGame',
-  gameCollect: '/gameCollect',
+  game: '/api/game',
+  games: '/api/games',
+  simpleGame: '/api/simpleGame',
+  gameCollect: '/api/gameCollect',
 };
 
 export default APIS;

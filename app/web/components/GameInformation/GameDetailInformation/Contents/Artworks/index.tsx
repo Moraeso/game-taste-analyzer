@@ -34,7 +34,7 @@ const Artworks = () => {
       <EmptySpace marginTop="10px" />
       <ItemSlider
         mobileViews={2}
-        defaultWidth={160}
+        defaultWidth={240}
         length={game.artworks.length}
       >
         <ArtworksItems itemList={game.artworks} />

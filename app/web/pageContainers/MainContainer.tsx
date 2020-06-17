@@ -1,10 +1,11 @@
 import React from 'react';
-import GameInformation from 'web/components/GameInformation';
+import Games from 'web/components/Games';
+import WrapperWithSidebar from 'web/components/WrapperWithSidebar';
 
-const MainContainer = ({ match, history }: { match: any; history: any }) => (
-  <>
-    <GameInformation gameId={match.params.gameId} history={history} />
-  </>
+const MainContainer = () => (
+  <WrapperWithSidebar>
+    <Games />
+  </WrapperWithSidebar>
 );
 
 export default MainContainer;

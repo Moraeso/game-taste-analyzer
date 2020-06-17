@@ -24,7 +24,7 @@ const Line = styled.div`
   background-color: ${Colors.gray2};
 `;
 
-const Index = () => {
+const Screenshots = () => {
   const game = useGameInformationContext();
   if (!game) return null;
   if (!game.screenshots) return null;
@@ -37,7 +37,7 @@ const Index = () => {
       <EmptySpace marginTop="10px" />
       <ItemSlider
         mobileViews={2}
-        defaultWidth={160}
+        defaultWidth={240}
         length={game.screenshots.length}
       >
         <ScreenshotItems itemList={game.screenshots} />
@@ -47,4 +47,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Screenshots;

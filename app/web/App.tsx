@@ -9,9 +9,10 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from 'web/store/modules';
 import { createGlobalStyle } from 'styled-components';
-import MainContainer from 'web/pageContainers/MainContainer';
+import GameInfoContainer from 'web/pageContainers/GameInfoContainer';
 import ROUTER from 'web/ROUTER';
 import NotFound from 'web/pageContainers/NotFound';
+import MainContainer from 'web/pageContainers/MainContainer';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -27,7 +28,8 @@ const App = () => (
     <GlobalStyle />
     <BrowserRouter>
       <Switch>
-        <Route path={ROUTER.GAME} exact component={MainContainer} />
+        <Route path={ROUTER.GAME} component={GameInfoContainer} />
+        <Route path={ROUTER.GAMES} component={MainContainer} />
         <Route path={ROUTER.NOT_FOUND} component={NotFound} />
         <Redirect path="*" to={ROUTER.NOT_FOUND} />
       </Switch>
