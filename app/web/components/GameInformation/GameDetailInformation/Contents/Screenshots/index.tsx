@@ -37,7 +37,7 @@ const Screenshots = () => {
       <EmptySpace marginTop="10px" />
       <ItemSlider
         mobileViews={2}
-        defaultWidth={240}
+        defaultWidth={270}
         length={game.screenshots.length}
       >
         <ScreenshotItems itemList={game.screenshots} />

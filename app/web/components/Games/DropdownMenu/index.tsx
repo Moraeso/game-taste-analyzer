@@ -8,7 +8,7 @@ import { Colors } from 'shared/assets/color';
 
 const Button = styled.div`
   width: 120px;
-  background-color: ${Colors.gray5};
+  background-color: ${Colors.gray4};
   color: white;
   padding: 16px;
   font-size: 16px;

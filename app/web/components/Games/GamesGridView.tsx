@@ -11,6 +11,7 @@ import {
   MOBILE_BIG_WIDTH,
 } from 'web/constants';
 import useMedia from 'web/hooks/useMedia';
+import GamesGridColumn from 'web/components/Games/GamesGridColumn';
 
 const Wrapper = styled.div`
   background-color: ${Colors.gray1};
@@ -58,7 +59,7 @@ const GamesGridView = ({ games }: { games: Game[] }) => {
     const newItems = [];
     for (let i = 0; i < columns; i += 1) {
       const columnItems = games.filter((v, index) => (index % columns) === i);
-      newItems.push(<GirdColumn key={i}>{columnItems.map((v) => <GameCard key={v.id} g={v} />)}</GirdColumn>);
+      newItems.push(<GamesGridColumn games={columnItems} />);
     }
     setGridItems(newItems);
   }, [columns, games]);

@@ -7,7 +7,7 @@ import SimilarGames from 'web/components/GameInformation/GameDetailInformation/C
 import Videos from 'web/components/GameInformation/GameDetailInformation/Contents/Video';
 
 const Wrapper = styled.div`
-  width: 720px;
+  width: 690px;
   margin: 0 8px;
   @media (max-width: ${MOBILE_WIDTH}) {
     width: 100%;  

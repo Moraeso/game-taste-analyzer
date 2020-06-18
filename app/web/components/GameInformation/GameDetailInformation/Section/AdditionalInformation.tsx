@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   margin: 0 8px;
   @media (max-width: ${DESKTOP_SMALL}) {
     margin: 8px;
-    width: 720px;
+    width: 690px;
   }
   @media (max-width: ${MOBILE_WIDTH}) {
     width: 100%;
