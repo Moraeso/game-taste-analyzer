@@ -51,11 +51,11 @@ const DropdownMenu = ({ items }: { items: any }) => {
 
   useEffect(() => {
     const order = location.search.split('=')[1];
-    if (order === 'total_rating') {
+    if (order === '-rating') {
       setOrderBy('점수 순');
-    } else if (order === 'popularity') {
+    } else if (order === '-added') {
       setOrderBy('인기 순');
-    } else if (order === 'first_release_date') {
+    } else if (order === '-released') {
       setOrderBy('최신 발매 순');
     }
   }, [location]);

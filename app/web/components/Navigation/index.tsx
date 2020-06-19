@@ -5,7 +5,7 @@ import { Colors } from 'shared/assets/color';
 
 const Wrapper = styled.div`
    position: sticky;
-   width: 350px;
+   width: 230px;
    padding: 100px 20px 0 0;
    background: ${Colors.white};
 `;

@@ -3,8 +3,7 @@ import React, {
   useState,
 } from 'react';
 import styled, { css } from 'styled-components';
-import { Game } from 'web/model/game';
-import GameCard from 'web/components/Games/GameCard';
+import { Game } from 'shared/model/game';
 import { Colors } from 'shared/assets/color';
 import {
   DESKTOP_NORMAL,
@@ -33,12 +32,6 @@ const Gird = styled.div`
   }
 `;
 
-const GirdColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
 const GamesGridView = ({ games }: { games: Game[] }) => {
   const isDesktopNormal = useMedia(DESKTOP_NORMAL);
   const isMobileBig = useMedia(MOBILE_BIG_WIDTH);
@@ -59,7 +52,7 @@ const GamesGridView = ({ games }: { games: Game[] }) => {
     const newItems = [];
     for (let i = 0; i < columns; i += 1) {
       const columnItems = games.filter((v, index) => (index % columns) === i);
-      newItems.push(<GamesGridColumn games={columnItems} />);
+      newItems.push(<GamesGridColumn key={i} g={columnItems} />);
     }
     setGridItems(newItems);
   }, [columns, games]);

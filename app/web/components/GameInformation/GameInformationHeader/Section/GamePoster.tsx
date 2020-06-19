@@ -24,7 +24,6 @@ const GamePoster = () => {
   return (
     <Wrapper>
       <Background />
-      <Cover />
     </Wrapper>
   );
 };

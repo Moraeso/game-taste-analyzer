@@ -1,17 +1,23 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { Game } from 'web/model/game';
+import { Game } from 'shared/model/game';
 import { Colors } from 'shared/assets/color';
 import { API_URL } from 'shared/constants';
+import { SimpleGame } from 'shared/model/game';
 
-const ImgWrapper = styled.div`
+const ImgWrapper = styled.div(({
+  show,
+}: {
+  show: boolean;
+}) => css`
+  display: ${!show && 'none'};
   position: relative;
   width: 100%;
   height: 0;
   padding-bottom: 56.25%;
   overflow: hidden;
   border-radius: 7px 7px 0 0;
-`;
+`);
 
 const Img = styled.img`
   object-fit: cover;
@@ -82,9 +88,12 @@ const Link = styled.a`
 
 const Score = styled.div(({
   color,
+  show,
 }: {
+  show: boolean;
   color: string;
 }) => css`
+  display: ${!show && 'none'};
   position: absolute;
   top: 0px;
   right: 0px;
@@ -114,39 +123,37 @@ const Wrapper = styled.div`
     }
   }
 `;
-const toConcat = (stringArray: string[]): string => stringArray.join(', ');
 
-const GameCard = ({ g }: { g: Game }) => {
-  const imgSrc = g.artworks ? g.artworks[0] : g.cover;
+const GameCard = ({ g }: { g: SimpleGame }) => {
   let scoreColor = Colors.green;
-  if (Math.round(g.totalRating) === 0) {
+  if (Math.round(g.metacritic) === 0) {
     scoreColor = Colors.gray7;
-  } else if (g.totalRating < 50) {
+  } else if (g.metacritic < 50) {
     scoreColor = Colors.red;
-  } else if (g.totalRating < 85) {
+  } else if (g.metacritic < 85) {
     scoreColor = Colors.mango;
   }
 
   return (
     <Wrapper>
-      <ImgWrapper>
-        <Img src={imgSrc} alt={`${g.name}-thumbnail`} />
+      <ImgWrapper show={!!(g.backgroundImage)}>
+        <Img src={g.backgroundImage} alt={`${g.name}-thumbnail`} />
       </ImgWrapper>
       <Content>
         <Link href={`${API_URL}/game/${g.id}`}>
           <Text>{g.name}</Text>
-          <Score color={scoreColor}>{Math.round(g.totalRating)}</Score>
+          <Score show={!!(g.metacritic)} color={scoreColor}>{g.metacritic}</Score>
         </Link>
         <SubContent>
           <UL>
             <DL>
               <DT>출시일</DT>
-              <DD>{g.firstReleaseDate ? g.firstReleaseDate.toString().split('T00')[0] : '출시 예정'}</DD>
+              <DD>{!(g.tba) ? g.released : '출시 예정'}</DD>
             </DL>
             <Line />
             <DL>
               <DT>장르</DT>
-              <DD>{toConcat(g.genres)}</DD>
+              <DD>{(g.genres.map((v) => v.name))}</DD>
             </DL>
           </UL>
         </SubContent>

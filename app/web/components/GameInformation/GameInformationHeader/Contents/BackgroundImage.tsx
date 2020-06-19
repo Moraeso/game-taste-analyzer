@@ -70,14 +70,12 @@ const RightGradient = styled.div`
 `;
 
 const BackgroundImage = () => {
-  const game = useGameInformationContext();
-  if (!game) return null;
-  const show = !!((game.artworks || game.screenshots));
-  // eslint-disable-next-line no-nested-ternary
-  const src = game.artworks ? game.artworks[0] : (game.screenshots ? game.screenshots[0] : '');
+  const g = useGameInformationContext();
+  if (!g) return null;
+  const show = !!(g.backgroundImage);
   return (
     <Wrapper>
-      <Img show={show} src={src} alt={`${game.name}-background`} />
+      <Img show={show} src={g.backgroundImage} alt={`${g.name}-background`} />
       <LeftGradient />
       <RightGradient />
     </Wrapper>

@@ -1,13 +1,17 @@
 import express from 'express';
-import { getGamesOrderByRating } from 'server/services/game.service/games.service';
+import callGameApi from 'server/utils/callGameApi';
+import {
+  getSimpleGame,
+} from 'server/services/game.service/game.service';
 
 const gamesApi = express.Router();
 
 gamesApi.get('/', async (req, res) => {
-  const { ordering, limit }: { ordering?: string; limit?: number } = req.query;
+  const { ordering, page }: { ordering?: string; page?: number } = req.query;
 
-  const games = await getGamesOrderByRating(ordering, limit);
-  res.send(games);
+  const games = await callGameApi(`/games?ordering=${ordering}&page=${page}`);
+  const ret = games.results.map((v) => getSimpleGame(v));
+  res.send(ret);
 });
 
 export default gamesApi;

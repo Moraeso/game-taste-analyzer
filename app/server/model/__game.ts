@@ -1,4 +1,4 @@
-export interface Game {
+export interface __game {
   id: number | null;
   name: string | null;
   developer: string | null;

@@ -5,14 +5,18 @@ import React, {
 import axios from 'axios';
 import { API_URL } from 'shared/constants';
 import APIS from 'shared/constants/APIS';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import GamesGridView from 'web/components/Games/GamesGridView';
 import EmptySpace from 'web/components/shared/EmptySpace';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useLocation } from 'react-router';
 import DropdownMenu from 'web/components/Games/DropdownMenu';
+import { Colors } from 'shared/assets/color';
+import Loading from 'web/components/shared/Loading';
 
 const Wrapper = styled.div`
+  position: relative;
+  width: 100%;
   margin: 20px 0;
 `;
 
@@ -21,34 +25,53 @@ const Text = styled.div`
   font-weight: bold;
 `;
 
+const LoadingBox = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 50px;
+  margin-top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid ${Colors.gray3};
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  background: ${Colors.gray3};
+  color: ${Colors.white};
+`;
+
 const ORDER = [
   {
-    name: `점수 순`,
-    link: `${API_URL}/games?ordering=total_rating`,
+    name: `인기 순`,
+    link: `${API_URL}/games?ordering=-added`,
   },
   {
-    name: `인기 순`,
-    link: `${API_URL}/games?ordering=popularity`,
+    name: `점수 순`,
+    link: `${API_URL}/games?ordering=-rating`,
   },
   {
     name: `최신발매 순`,
-    link: `${API_URL}/games?ordering=first_release_date`,
+    link: `${API_URL}/games?ordering=-released`,
   },
 ];
 
 const Games = () => {
-  const [games, setGames] = useState(null);
-  const [showNum, setShowNum] = useState(20);
+  const [games, setGames] = useState([]);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
 
-  const getGamesOrderByRating = async (limit: number) => {
-    const ordering = location.search.split('=')[1] || 'total_rating';
+  const getGamesOrderByRating = async () => {
+    const ordering = location.search.split('=')[1] || '-added';
     const result = await axios({
       method: 'get',
       url: `${API_URL}${APIS.games}`,
       params: {
-        limit,
+        page,
         ordering,
       },
     });
@@ -56,21 +79,19 @@ const Games = () => {
   };
 
   useEffect(() => {
-    getGamesOrderByRating(showNum)
+    getGamesOrderByRating()
       .then((res) => {
-        setGames(res.data);
+        setGames(games.concat(res.data));
       })
       .then(() => {
-        setTimeout(() => {
-          setLoading(false);
-        }, 500);
+        setLoading(false);
       });
-  }, [showNum]);
+  }, [page]);
 
   const loadFunc = () => {
-    if (loading) return;
+    if (!(games.length) || loading) return;
     setLoading(() => true);
-    setShowNum(showNum + 20);
+    setPage(page + 1);
   };
 
   return (
@@ -87,11 +108,15 @@ const Games = () => {
           pageStart={0}
           loadMore={loadFunc}
           hasMore
-          loader={<div className="loader" key={0}>Loading ...</div>}
         >
           <GamesGridView games={games} />
         </InfiniteScroll>
       )}
+      <LoadingBox>
+        {(loading || !(games.length))
+          ? <Loading />
+          : <>Load More</>}
+      </LoadingBox>
     </Wrapper>
   );
 };

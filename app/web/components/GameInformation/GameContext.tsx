@@ -2,7 +2,7 @@ import React, {
   createContext,
   useContext,
 } from 'react';
-import { Game } from 'web/model/game';
+import { Game } from 'shared/model/game';
 
 const Context = createContext(undefined);
 

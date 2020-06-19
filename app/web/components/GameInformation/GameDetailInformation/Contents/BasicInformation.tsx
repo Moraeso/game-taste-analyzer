@@ -28,16 +28,12 @@ const Line = styled.div`
 `;
 
 const BasicInformation = () => {
-  const toConcat = useCallback(
-    (stringArray: string[]): string => stringArray.join(' ・ '), []
-  );
+  const g = useGameInformationContext();
+  if (!g) return null;
 
-  const game = useGameInformationContext();
-  if (!game) return null;
-
-  const firstReleaseDate: string = game.firstReleaseDate ? game.firstReleaseDate.split('-')[0] : '출시 예정';
-  const platforms: string = game.platforms ? toConcat(game.platforms) : '-';
-  const genres: string = game.genres ? toConcat(game.genres) : '-';
+  const released: string = !(g.tba) ? g.released : '출시 예정';
+  const platforms = g.platforms.map((v) => <div key={v.id}>{v.name}</div>);
+  const genres = g.genres.map((v) => <div key={v.id}>{v.name}</div>);
 
   return (
     <Wrapper>
@@ -45,10 +41,12 @@ const BasicInformation = () => {
         기본 정보
       </TitleText>
       <EmptySpace marginTop="10px" />
-      <Text>{`${game.name} (${firstReleaseDate})`}</Text>
-      <Text>{`${game.developer || ''}`}</Text>
-      <Text>{`플랫폼 : ${platforms}`}</Text>
-      <Text>{`장르 : ${genres}`}</Text>
+      <Text>{`${g.name} (${released})`}</Text>
+      <Text>{`${g.developers[0].name || ''}`}</Text>
+      <Text>{`플랫폼 : `}</Text>
+      {platforms}
+      <Text>{`장르 : `}</Text>
+      {genres}
       {/* <Text>{`테마 : ${toConcat(game.themes)}`}</Text> */}
       {/* <Text>{`시점 : ${toConcat(game.playerPerspectives)}`}</Text> */}
       {/* <Text>{`지원 모드 : ${toConcat(game.gameModes)}`}</Text> */}
