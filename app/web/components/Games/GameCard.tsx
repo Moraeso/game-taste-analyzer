@@ -1,9 +1,10 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { Game } from 'shared/model/game';
 import { Colors } from 'shared/assets/color';
 import { API_URL } from 'shared/constants';
 import { SimpleGame } from 'shared/model/game';
+import PlatformIcons from 'web/components/Games/PlatformIcons';
+import EmptySpace from 'web/components/shared/EmptySpace';
 
 const ImgWrapper = styled.div(({
   show,
@@ -140,6 +141,8 @@ const GameCard = ({ g }: { g: SimpleGame }) => {
         <Img src={g.backgroundImage} alt={`${g.name}-thumbnail`} />
       </ImgWrapper>
       <Content>
+        <PlatformIcons platforms={g.parentPlatforms} />
+        <EmptySpace marginTop="10px" />
         <Link href={`${API_URL}/game/${g.id}`}>
           <Text>{g.name}</Text>
           <Score show={!!(g.metacritic)} color={scoreColor}>{g.metacritic}</Score>

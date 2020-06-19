@@ -3,7 +3,6 @@ import React, {
   useState,
 } from 'react';
 import styled, { css } from 'styled-components';
-import { Game } from 'shared/model/game';
 import { Colors } from 'shared/assets/color';
 import {
   DESKTOP_NORMAL,
@@ -11,6 +10,7 @@ import {
 } from 'web/constants';
 import useMedia from 'web/hooks/useMedia';
 import GamesGridColumn from 'web/components/Games/GamesGridColumn';
+import { SimpleGame } from 'shared/model/game';
 
 const Wrapper = styled.div`
   background-color: ${Colors.gray1};
@@ -32,7 +32,7 @@ const Gird = styled.div`
   }
 `;
 
-const GamesGridView = ({ games }: { games: Game[] }) => {
+const GamesGridView = ({ games }: { games: SimpleGame[] }) => {
   const isDesktopNormal = useMedia(DESKTOP_NORMAL);
   const isMobileBig = useMedia(MOBILE_BIG_WIDTH);
   const [columns, setColumns] = useState(4);

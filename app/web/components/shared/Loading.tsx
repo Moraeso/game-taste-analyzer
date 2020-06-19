@@ -3,12 +3,13 @@ import styled, {
   css,
   keyframes,
 } from 'styled-components';
+import { Colors } from 'shared/assets/color';
 
 const Wrapper = styled.div`
   display: inline-block;
   position: relative;
-  width: 28px;
-  height: 28px;
+  width: 42px;
+  height: 42px;
 `;
 
 const Rotate = keyframes`
@@ -28,13 +29,13 @@ const Child = styled.div(({
   box-sizing: border-box;
   display: block;
   position: absolute;
-  width: 28px;
-  height: 28px;
-  border: 2px solid #fff;
+  width: 42px;
+  height: 42px;
+  border: 4px solid #fff;
   border-radius: 50%;
   animation: ${Rotate} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
   animation-delay: ${delay};
-  border-color: #fff transparent transparent transparent;
+  border-color: ${Colors.gray6} transparent transparent transparent;
 `);
 
 const Loading = () => (

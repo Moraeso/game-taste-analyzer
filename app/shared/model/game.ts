@@ -3,6 +3,7 @@ export interface SimpleGame {
   name: string;
   tba: boolean;
   platforms: Platform[];
+  parentPlatforms: ParentPlatform[];
   genres: Genre[];
   released: Date;
   metacritic: number;
@@ -52,6 +53,11 @@ export interface Game {
 }
 
 export interface Platform {
+  id: number;
+  name: string;
+}
+
+export interface ParentPlatform {
   id: number;
   name: string;
 }

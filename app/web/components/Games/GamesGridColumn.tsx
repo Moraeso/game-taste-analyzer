@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import GameCard from 'web/components/Games/GameCard';
-import { Game } from 'shared/model/game';
+import {
+  SimpleGame,
+} from 'shared/model/game';
 
 const Wrapper = styled.div`
   display: flex;
@@ -9,7 +11,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const GamesGridColumn = ({ g }: { g: Game[] }) => {
+const GamesGridColumn = ({ g }: { g: SimpleGame[] }) => {
   return (
     <Wrapper>
       {g.map((v) => <GameCard key={v.id} g={v} />)}

@@ -11,6 +11,12 @@ export const getSimpleGame = (g): SimpleGame => {
       name: v.platform.name,
     }),
   );
+  const parentPlatforms = g.parent_platforms.map((v) => (
+    {
+      id: v.platform.id,
+      name: v.platform.name,
+    }),
+  );
   const genres = g.genres.map((v) => (
     {
       id: v.id,
@@ -46,6 +52,7 @@ export const getSimpleGame = (g): SimpleGame => {
     name: g.name,
     tba: g.tba,
     platforms,
+    parentPlatforms,
     genres,
     released: g.released,
     metacritic: g.metacritic,

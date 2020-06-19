@@ -33,15 +33,11 @@ const LoadingBox = styled.div`
   justify-content: center;
   width: 200px;
   height: 50px;
-  margin-top: 10px;
+  margin: 70px 0 50px 0;
   left: 50%;
   transform: translateX(-50%);
-  border: 1px solid ${Colors.gray3};
-  border-radius: 5px;
   font-size: 16px;
   font-weight: 500;
-  background: ${Colors.gray3};
-  color: ${Colors.white};
 `;
 
 const ORDER = [
