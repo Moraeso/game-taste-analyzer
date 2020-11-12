@@ -1,6 +1,10 @@
 import express from 'express';
 import gameApi from 'server/apis/game/game.api';
-import gamesApi from 'server/apis/game/games.api';
+import gamesAllApi from 'server/apis/games/gamesAll.api';
+import gamesClassicApi from 'server/apis/games/gamesClasstic.api';
+import gamesLast30Api from 'server/apis/games/gamesLast30.api';
+import gamesMetacriticApi from 'server/apis/games/gamesMetacritic.api';
+import gamesThisYearApi from 'server/apis/games/gamesThisYear.api';
 import applyReactSupport from 'server/applyReactSupport';
 import { APIS } from 'shared/constants';
 
@@ -11,7 +15,12 @@ const expressApp = () => {
   app.use(express.urlencoded({ extended: false }));
 
   app.use(APIS.game, gameApi);
-  app.use(APIS.games, gamesApi);
+  app.use(APIS.gamesAll, gamesAllApi);
+  app.use(APIS.gamesMetacritic, gamesMetacriticApi);
+  app.use(APIS.gamesClassic, gamesClassicApi);
+  app.use(APIS.gamesThisYear, gamesThisYearApi);
+  app.use(APIS.gamesLast30, gamesLast30Api);
+
   // app.get('/health', (req, res) => {
   //   res.json({
   //     status: 'UP',

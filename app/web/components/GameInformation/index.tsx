@@ -35,7 +35,6 @@ const GameInformation = ({ id, history }: { id: number; history: any }) => {
     try {
       getGame()
         .then((res) => {
-          console.log(res.data);
           setGame(() => res.data);
         });
     } catch (error) {

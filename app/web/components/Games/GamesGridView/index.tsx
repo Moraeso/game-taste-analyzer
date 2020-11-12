@@ -2,19 +2,17 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import styled, { css } from 'styled-components';
-import { Colors } from 'shared/assets/color';
+import styled from 'styled-components';
 import {
   DESKTOP_NORMAL,
   MOBILE_BIG_WIDTH,
 } from 'web/constants';
 import useMedia from 'web/hooks/useMedia';
-import GamesGridColumn from 'web/components/Games/GamesGridColumn';
+import GamesGridColumn from 'web/components/Games/GamesGridView/GamesGridColumn';
 import { SimpleGame } from 'shared/model/game';
 
 const Wrapper = styled.div`
-  background-color: ${Colors.gray1};
-  padding: 0 20px;
+  padding: 0;
 `;
 
 const Gird = styled.div`

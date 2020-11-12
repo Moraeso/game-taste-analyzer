@@ -1,5 +1,5 @@
 const ROUTER = {
-  GAMES: '/games',
+  GAMES: '/games/:discover',
   GAME: '/game/:gameId',
 
   NOT_FOUND: '/not-found',

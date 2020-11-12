@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import GameCard from 'web/components/Games/GameCard';
+import GameCard from 'web/components/Games/GamesGridView/GameCard';
 import {
   SimpleGame,
 } from 'shared/model/game';

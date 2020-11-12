@@ -51,12 +51,14 @@ const DropdownMenu = ({ items }: { items: any }) => {
 
   useEffect(() => {
     const order = location.search.split('=')[1];
-    if (order === '-rating') {
-      setOrderBy('점수 순');
-    } else if (order === '-added') {
+    if (order === '-added') {
       setOrderBy('인기 순');
+    } else if (order === '-rating') {
+      setOrderBy('점수 순');
     } else if (order === '-released') {
       setOrderBy('최신 발매 순');
+    } else {
+      setOrderBy('인기 순');
     }
   }, [location]);
   return (
@@ -67,7 +69,7 @@ const DropdownMenu = ({ items }: { items: any }) => {
         {orderBy}
       </Button>
       <Contents>
-        {items.map((v) => <Link key={v.name} href={v.link}>{v.name}</Link>)}
+        {items.map((v) => <Link key={v.name} href={`${v.link}`}>{v.name}</Link>)}
       </Contents>
     </Wrapper>
   );

@@ -2,16 +2,12 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import axios from 'axios';
 import { API_URL } from 'shared/constants';
-import APIS from 'shared/constants/APIS';
-import styled, { css } from 'styled-components';
-import GamesGridView from 'web/components/Games/GamesGridView';
+import styled from 'styled-components';
+import GamesGridView from 'web/components/Games/GamesGridView/index';
 import EmptySpace from 'web/components/shared/EmptySpace';
 import InfiniteScroll from 'react-infinite-scroller';
-import { useLocation } from 'react-router';
 import DropdownMenu from 'web/components/Games/DropdownMenu';
-import { Colors } from 'shared/assets/color';
 import Loading from 'web/components/shared/Loading';
 
 const Wrapper = styled.div`
@@ -39,64 +35,51 @@ const LoadingBox = styled.div`
   font-size: 16px;
   font-weight: 500;
 `;
-
-const ORDER = [
+// 여기 링크 바꾸기
+const ORDER = (name) => [
   {
     name: `인기 순`,
-    link: `${API_URL}/games?ordering=-added`,
+    link: `${API_URL}/games/${name}?ordering=-added`,
   },
   {
     name: `점수 순`,
-    link: `${API_URL}/games?ordering=-rating`,
+    link: `${API_URL}/games/${name}?ordering=-rating`,
   },
   {
     name: `최신발매 순`,
-    link: `${API_URL}/games?ordering=-released`,
+    link: `${API_URL}/games/${name}?ordering=-released`,
   },
 ];
 
-const Games = () => {
+const GameListForm = ({ title, name, callGameList }: { title: string; name: string; callGameList: Function }) => {
   const [games, setGames] = useState([]);
-  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const location = useLocation();
+  const [trigger, setTrigger] = useState(false);
 
-  const getGamesOrderByRating = async () => {
-    const ordering = location.search.split('=')[1] || '-added';
-    const result = await axios({
-      method: 'get',
-      url: `${API_URL}${APIS.games}`,
-      params: {
-        page,
-        ordering,
-      },
-    });
-    return result;
+  const loadFunc = () => {
+    if (!(games.length) || loading) return;
+    setTrigger(!trigger);
   };
 
   useEffect(() => {
-    getGamesOrderByRating()
+    const initial = !games.length;
+    setLoading(() => true);
+    callGameList(initial)
       .then((res) => {
         setGames(games.concat(res.data));
       })
       .then(() => {
-        setLoading(false);
+        setLoading(() => false);
       });
-  }, [page]);
-
-  const loadFunc = () => {
-    if (!(games.length) || loading) return;
-    setLoading(() => true);
-    setPage(page + 1);
-  };
+  }, [trigger]);
 
   return (
     <Wrapper>
       <Text>
-        모든 게임
+        {title}
       </Text>
       <EmptySpace marginTop="10px" />
-      <DropdownMenu items={ORDER} />
+      <DropdownMenu items={ORDER(name)} />
       <EmptySpace marginTop="10px" />
       {games
       && (
@@ -117,4 +100,4 @@ const Games = () => {
   );
 };
 
-export default Games;
+export default GameListForm;

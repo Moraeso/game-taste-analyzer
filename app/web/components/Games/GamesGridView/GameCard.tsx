@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { Colors } from 'shared/assets/color';
 import { API_URL } from 'shared/constants';
 import { SimpleGame } from 'shared/model/game';
-import PlatformIcons from 'web/components/Games/PlatformIcons';
+import PlatformIcons from 'web/components/Games/GamesGridView/PlatformIcons';
 import EmptySpace from 'web/components/shared/EmptySpace';
 
 const ImgWrapper = styled.div(({

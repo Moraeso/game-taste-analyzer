@@ -23,16 +23,18 @@ export const getSimpleGame = (g): SimpleGame => {
       name: v.name,
     }),
   );
-  const stores = g.stores.map((v) => (
-    {
-      id: v.id,
-      url: v.url,
-      store: {
-        id: v.store.id,
-        name: v.store.name,
-      },
-    }),
-  );
+  const stores = !(g.stores)
+    ? null
+    : g.stores.map((v) => (
+      {
+        id: v.id,
+        url: v.url,
+        store: {
+          id: v.store.id,
+          name: v.store.name,
+        },
+      }),
+    );
   const tags = g.tags.map((v) => (
     {
       id: v.id,
